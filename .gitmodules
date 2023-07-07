@@ -1,0 +1,3 @@
+[submodule "syscall/syscall-benchmark"]
+	path = syscall/syscall-benchmark
+	url = https://github.com/jz268/protect-kaslr-syscall-benchmark
