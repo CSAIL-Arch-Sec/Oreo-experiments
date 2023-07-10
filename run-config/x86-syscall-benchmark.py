@@ -24,26 +24,6 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-"""
-Script to run PARSEC benchmarks with gem5.
-The script expects a benchmark program name and the simulation
-size. The system is fixed with 2 CPU cores, MESI Two Level system
-cache and 3 GB DDR4 memory. It uses the x86 board.
-
-This script will count the total number of instructions executed
-in the ROI. It also tracks how much wallclock and simulated time.
-
-Usage:
-------
-
-```
-scons build/X86/gem5.opt
-./build/X86/gem5.opt \
-    configs/example/gem5_library/x86-parsec-benchmarks.py \
-    --benchmark <benchmark_name> \
-    --size <simulation_size>
-```
-"""
 import argparse
 import time
 
@@ -61,6 +41,7 @@ from gem5.isas import ISA
 from gem5.coherence_protocol import CoherenceProtocol
 from gem5.resources.resource import (
     Resource,
+    CustomResource,
     CustomDiskImageResource
 )
 from gem5.simulate.simulator import Simulator
@@ -77,31 +58,12 @@ requires(
 # Following are the list of benchmark programs for parsec.
 
 benchmark_choices = [
-    "blackscholes",
-    "bodytrack",
-    "canneal",
-    "dedup",
-    "facesim",
-    "ferret",
-    "fluidanimate",
-    "freqmine",
-    "raytrace",
-    "streamcluster",
-    "swaptions",
-    "vips",
-    "x264",
     "test"
 ]
 
-# Following are the input size.
-
-size_choices = ["simsmall", "simmedium", "simlarge"]
-
 parser = argparse.ArgumentParser(
-    description="An example configuration script to run the npb benchmarks."
+    description="configuration script for syscall benchmark"
 )
-
-# The arguments accepted are the benchmark name and the simulation size.
 
 parser.add_argument(
     "--benchmark",
@@ -111,13 +73,6 @@ parser.add_argument(
     choices=benchmark_choices,
 )
 
-parser.add_argument(
-    "--size",
-    type=str,
-    required=True,
-    help="Simulation size the benchmark program.",
-    choices=size_choices,
-)
 args = parser.parse_args()
 
 # Setting up all the fixed system parameters here
@@ -177,28 +132,19 @@ board = X86Board(
 # Also, we sleep the system for some time so that the output is printed
 # properly.
 
-if args.benchmark != "test":
-    command = (
-        "cd /home/gem5/parsec-benchmark;".format(args.benchmark)
-        + "source env.sh;"
-        + "parsecmgmt -a run -p {} -c gcc-hooks -i {} \
-            -n {};".format(
-            args.benchmark, args.size, "2"
-        )
-        + "sleep 5;"
-        + "m5 exit;"
-    )
-else:
-    command = (
-        "cd /home/gem5/syscall-benchmark/bin;"
-        + "echo 'work begin';"
-        + "m5 workbegin;"
-        + "echo $(time ./test);"
-        + "m5 workend;"
-        + "echo 'work end';"
-        + "sleep 5;"
-        + "m5 exit;"
-    )
+command = (
+    "echo 'Done booting Linux, switching to O3';"
+    + "m5 checkpoint;"
+    + "m5 exit;"
+    + "cd /home/gem5/syscall-benchmark/bin;"
+    + "echo 'work begin';"
+    + "m5 workbegin;"
+    + "echo $(time ./test);"
+    + "m5 workend;"
+    + "echo 'work end';"
+    + "sleep 5;"
+    + "m5 exit;"
+)
 
 board.set_kernel_disk_workload(
     # The x86 linux kernel will be automatically downloaded to the
@@ -216,22 +162,21 @@ board.set_kernel_disk_workload(
 
 # functions to handle different exit events during the simuation
 def handle_workbegin():
-    print("Done booting Linux")
     print("Resetting stats at the start of ROI!")
     m5.stats.reset()
-    processor.switch()
     yield False
 
 
 def handle_workend():
-    print("Dump stats at the end of the ROI!")
     m5.stats.dump()
+    print("Dump stats at the end of the ROI!")
     yield True
 
 
 simulator = Simulator(
     board=board,
     on_exit_event={
+        ExitEvent.EXIT: (func() for func in [processor.switch]),
         ExitEvent.WORKBEGIN: handle_workbegin(),
         ExitEvent.WORKEND: handle_workend(),
     },
@@ -243,8 +188,6 @@ globalStart = time.time()
 
 print("Running the simulation")
 print("Using KVM cpu")
-
-m5.stats.reset()
 
 # We start the simulation
 simulator.run()
