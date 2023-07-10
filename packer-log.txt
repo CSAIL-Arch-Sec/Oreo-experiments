@@ -1,0 +1,127 @@
+2023/07/09 11:36:19 [INFO] Packer version: 1.9.1 [go1.20.4 linux amd64]
+2023/07/09 11:36:19 Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 [TRACE] discovering plugins in /home/jzha-shd/protect-kaslr/disk-image
+2023/07/09 11:36:19 Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 [TRACE] discovering plugins in /home/jzha-shd/.packer.d/plugins
+2023/07/09 11:36:19 [TRACE] discovering plugins in .
+2023/07/09 11:36:19 [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/07/09 11:36:19 [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 [WARN] Config file doesn't exist: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 [INFO] Setting cache directory: /home/jzha-shd/.cache/packer
+2023/07/09 11:36:19 Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 [TRACE] Starting internal plugin packer-builder-qemu
+2023/07/09 11:36:19 Starting plugin: /home/jzha-shd/protect-kaslr/disk-image/packer []string{"/home/jzha-shd/protect-kaslr/disk-image/packer", "plugin", "packer-builder-qemu"}
+2023/07/09 11:36:19 Waiting for RPC address for: /home/jzha-shd/protect-kaslr/disk-image/packer
+2023/07/09 11:36:19 packer-builder-qemu plugin: [INFO] Packer version: 1.9.1 [go1.20.4 linux amd64]
+2023/07/09 11:36:19 packer-builder-qemu plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-builder-qemu plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/07/09 11:36:19 packer-builder-qemu plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-builder-qemu plugin: [WARN] Config file doesn't exist: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-builder-qemu plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-builder-qemu plugin: [INFO] Setting cache directory: /home/jzha-shd/.cache/packer
+2023/07/09 11:36:19 packer-builder-qemu plugin: args: []string{"packer-builder-qemu"}
+2023/07/09 11:36:19 packer-builder-qemu plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-builder-qemu plugin: Plugin address: unix /tmp/packer-plugin1548065990
+2023/07/09 11:36:19 packer-builder-qemu plugin: Waiting for connection...
+2023/07/09 11:36:19 Received unix RPC address for /home/jzha-shd/protect-kaslr/disk-image/packer: addr is /tmp/packer-plugin1548065990
+2023/07/09 11:36:19 packer-builder-qemu plugin: Serving a plugin connection...
+2023/07/09 11:36:19 [TRACE] Starting internal plugin packer-provisioner-file
+2023/07/09 11:36:19 Starting plugin: /home/jzha-shd/protect-kaslr/disk-image/packer []string{"/home/jzha-shd/protect-kaslr/disk-image/packer", "plugin", "packer-provisioner-file"}
+2023/07/09 11:36:19 Waiting for RPC address for: /home/jzha-shd/protect-kaslr/disk-image/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Packer version: 1.9.1 [go1.20.4 linux amd64]
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: [WARN] Config file doesn't exist: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Setting cache directory: /home/jzha-shd/.cache/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: args: []string{"packer-provisioner-file"}
+2023/07/09 11:36:19 packer-provisioner-file plugin: Plugin address: unix /tmp/packer-plugin2802990340
+2023/07/09 11:36:19 packer-provisioner-file plugin: Waiting for connection...
+2023/07/09 11:36:19 Received unix RPC address for /home/jzha-shd/protect-kaslr/disk-image/packer: addr is /tmp/packer-plugin2802990340
+2023/07/09 11:36:19 packer-provisioner-file plugin: Serving a plugin connection...
+2023/07/09 11:36:19 [TRACE] Starting internal plugin packer-provisioner-file
+2023/07/09 11:36:19 Starting plugin: /home/jzha-shd/protect-kaslr/disk-image/packer []string{"/home/jzha-shd/protect-kaslr/disk-image/packer", "plugin", "packer-provisioner-file"}
+2023/07/09 11:36:19 Waiting for RPC address for: /home/jzha-shd/protect-kaslr/disk-image/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Packer version: 1.9.1 [go1.20.4 linux amd64]
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: [WARN] Config file doesn't exist: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Setting cache directory: /home/jzha-shd/.cache/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: args: []string{"packer-provisioner-file"}
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: Plugin address: unix /tmp/packer-plugin2373840231
+2023/07/09 11:36:19 packer-provisioner-file plugin: Waiting for connection...
+2023/07/09 11:36:19 Received unix RPC address for /home/jzha-shd/protect-kaslr/disk-image/packer: addr is /tmp/packer-plugin2373840231
+2023/07/09 11:36:19 packer-provisioner-file plugin: Serving a plugin connection...
+2023/07/09 11:36:19 [TRACE] Starting internal plugin packer-provisioner-file
+2023/07/09 11:36:19 Starting plugin: /home/jzha-shd/protect-kaslr/disk-image/packer []string{"/home/jzha-shd/protect-kaslr/disk-image/packer", "plugin", "packer-provisioner-file"}
+2023/07/09 11:36:19 Waiting for RPC address for: /home/jzha-shd/protect-kaslr/disk-image/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Packer version: 1.9.1 [go1.20.4 linux amd64]
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: [WARN] Config file doesn't exist: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Setting cache directory: /home/jzha-shd/.cache/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: args: []string{"packer-provisioner-file"}
+2023/07/09 11:36:19 packer-provisioner-file plugin: Plugin address: unix /tmp/packer-plugin2476550792
+2023/07/09 11:36:19 packer-provisioner-file plugin: Waiting for connection...
+2023/07/09 11:36:19 Received unix RPC address for /home/jzha-shd/protect-kaslr/disk-image/packer: addr is /tmp/packer-plugin2476550792
+2023/07/09 11:36:19 packer-provisioner-file plugin: Serving a plugin connection...
+2023/07/09 11:36:19 [TRACE] Starting internal plugin packer-provisioner-file
+2023/07/09 11:36:19 Starting plugin: /home/jzha-shd/protect-kaslr/disk-image/packer []string{"/home/jzha-shd/protect-kaslr/disk-image/packer", "plugin", "packer-provisioner-file"}
+2023/07/09 11:36:19 Waiting for RPC address for: /home/jzha-shd/protect-kaslr/disk-image/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Packer version: 1.9.1 [go1.20.4 linux amd64]
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: [WARN] Config file doesn't exist: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: [INFO] Setting cache directory: /home/jzha-shd/.cache/packer
+2023/07/09 11:36:19 packer-provisioner-file plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-file plugin: args: []string{"packer-provisioner-file"}
+2023/07/09 11:36:19 packer-provisioner-file plugin: Plugin address: unix /tmp/packer-plugin2626005194
+2023/07/09 11:36:19 packer-provisioner-file plugin: Waiting for connection...
+2023/07/09 11:36:19 Received unix RPC address for /home/jzha-shd/protect-kaslr/disk-image/packer: addr is /tmp/packer-plugin2626005194
+2023/07/09 11:36:19 packer-provisioner-file plugin: Serving a plugin connection...
+2023/07/09 11:36:19 [TRACE] Starting internal plugin packer-provisioner-shell
+2023/07/09 11:36:19 Starting plugin: /home/jzha-shd/protect-kaslr/disk-image/packer []string{"/home/jzha-shd/protect-kaslr/disk-image/packer", "plugin", "packer-provisioner-shell"}
+2023/07/09 11:36:19 Waiting for RPC address for: /home/jzha-shd/protect-kaslr/disk-image/packer
+2023/07/09 11:36:19 packer-provisioner-shell plugin: [INFO] Packer version: 1.9.1 [go1.20.4 linux amd64]
+2023/07/09 11:36:19 packer-provisioner-shell plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-shell plugin: [INFO] PACKER_CONFIG env var not set; checking the default config file path
+2023/07/09 11:36:19 packer-provisioner-shell plugin: [INFO] PACKER_CONFIG env var set; attempting to open config file: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-shell plugin: [WARN] Config file doesn't exist: /home/jzha-shd/.packerconfig
+2023/07/09 11:36:19 packer-provisioner-shell plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-shell plugin: [INFO] Setting cache directory: /home/jzha-shd/.cache/packer
+2023/07/09 11:36:19 packer-provisioner-shell plugin: args: []string{"packer-provisioner-shell"}
+2023/07/09 11:36:19 packer-provisioner-shell plugin: Old default config directory found: /home/jzha-shd/.packer.d
+2023/07/09 11:36:19 packer-provisioner-shell plugin: Plugin address: unix /tmp/packer-plugin2342427119
+2023/07/09 11:36:19 packer-provisioner-shell plugin: Waiting for connection...
+2023/07/09 11:36:19 Received unix RPC address for /home/jzha-shd/protect-kaslr/disk-image/packer: addr is /tmp/packer-plugin2342427119
+2023/07/09 11:36:19 packer-provisioner-shell plugin: Serving a plugin connection...
+2023/07/09 11:36:19 Preparing build: qemu
+2023/07/09 11:36:19 packer-builder-qemu plugin: use specified accelerator: kvm
+2023/07/09 11:36:19 Build 'qemu' prepare failure: 1 error(s) occurred:
+
+* Output directory 'syscall/syscall-image' already exists. It must not exist.
+2023/07/09 11:36:19 ui error: Error: Failed to prepare build: "qemu"
+
+1 error(s) occurred:
+
+* Output directory 'syscall/syscall-image' already exists. It must not exist.
+
+2023/07/09 11:36:19 [INFO] (telemetry) Finalizing.
+2023/07/09 11:36:20 waiting for all plugin processes to complete...
+2023/07/09 11:36:20 /home/jzha-shd/protect-kaslr/disk-image/packer: plugin process exited
+2023/07/09 11:36:20 /home/jzha-shd/protect-kaslr/disk-image/packer: plugin process exited
+2023/07/09 11:36:20 /home/jzha-shd/protect-kaslr/disk-image/packer: plugin process exited
+2023/07/09 11:36:20 /home/jzha-shd/protect-kaslr/disk-image/packer: plugin process exited
+2023/07/09 11:36:20 /home/jzha-shd/protect-kaslr/disk-image/packer: plugin process exited
+2023/07/09 11:36:20 /home/jzha-shd/protect-kaslr/disk-image/packer: plugin process exited
