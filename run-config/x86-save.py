@@ -51,8 +51,6 @@ board = X86Board(
     cache_hierarchy=NoCache(),
 )
 
-command = "m5 exit;"
-
 board.set_kernel_disk_workload(
     # The x86 linux kernel will be automatically downloaded to the
     # `~/.cache/gem5` directory if not already present.
@@ -61,7 +59,6 @@ board.set_kernel_disk_workload(
         "/root/disk-image/syscall/syscall-image/syscall",
         disk_root_partition="1"
     ),
-    readfile_contents=command,
 )
 
 def handle_checkpoint():
