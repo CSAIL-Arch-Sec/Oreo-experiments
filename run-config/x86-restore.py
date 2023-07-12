@@ -94,7 +94,7 @@ board = X86Board(
 )
 
 
-command = "m5 exit; m5 exit;"
+command = "echo 'blah blah blah'; m5 exit; m5 exit;"
 
 board.set_kernel_disk_workload(
     # The x86 linux kernel will be automatically downloaded to the

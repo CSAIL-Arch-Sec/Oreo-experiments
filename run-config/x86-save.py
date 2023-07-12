@@ -26,6 +26,7 @@
 
 import argparse
 import time
+import sys
 
 import m5
 from m5.objects import Root
@@ -59,19 +60,21 @@ requires(
 # Setting up all the fixed system parameters here
 # Caches: MESI Two Level Cache Hierarchy
 
-from gem5.components.cachehierarchies.ruby.mesi_two_level_cache_hierarchy import (
-    MESITwoLevelCacheHierarchy,
-)
+#from gem5.components.cachehierarchies.ruby.mesi_two_level_cache_hierarchy import (
+#    MESITwoLevelCacheHierarchy,
+#)
+#
+#cache_hierarchy = MESITwoLevelCacheHierarchy(
+#    l1d_size="32kB",
+#    l1d_assoc=8,
+#    l1i_size="32kB",
+#    l1i_assoc=8,
+#    l2_size="256kB",
+#    l2_assoc=16,
+#    num_l2_banks=2,
+#)
 
-cache_hierarchy = MESITwoLevelCacheHierarchy(
-    l1d_size="32kB",
-    l1d_assoc=8,
-    l1i_size="32kB",
-    l1i_assoc=8,
-    l2_size="256kB",
-    l2_assoc=16,
-    num_l2_banks=2,
-)
+from gem5.components.cachehierarchies.classic.no_cache import NoCache
 
 # Memory: Dual Channel DDR4 2400 DRAM device.
 # The X86 board only supports 3 GB of main memory.
@@ -90,11 +93,11 @@ board = X86Board(
     clk_freq="3GHz",
     processor=processor,
     memory=memory,
-    cache_hierarchy=cache_hierarchy,
+    cache_hierarchy=NoCache(),
 )
 
 
-command = "m5 exit; m5 exit;"
+command = "m5 exit;"
 
 board.set_kernel_disk_workload(
     # The x86 linux kernel will be automatically downloaded to the
@@ -111,9 +114,12 @@ board.set_kernel_disk_workload(
 )
 
 def handle_checkpoint():
-    m5.checkpoint(m5.options.outdir)
+    print("blah")
+    simulator.save_checkpoint(m5.options.outdir)
+    sys.exit(1)
+    #m5.checkpoint(m5.options.outdir)
     print("checkpoint things")
-    yield False
+    yield True
     #save_checkpoint_generator(m5.options.outdir)
 
 simulator = Simulator(
