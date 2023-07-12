@@ -1,4 +1,4 @@
-syscall/syscall-image
-syscall/syscall-benchmark/bin
-packer
-packer-log.txt
+disk-image/syscall/syscall-image
+disk-image/syscall/syscall-benchmark/bin
+disk-image/packer
+disk-image/packer-log.txt
