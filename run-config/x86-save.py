@@ -1,5 +1,4 @@
 import argparse
-import sys
 
 import m5
 from m5.objects import Root
@@ -59,7 +58,7 @@ board.set_kernel_disk_workload(
     # `~/.cache/gem5` directory if not already present.
     kernel=Resource("x86-linux-kernel-4.19.83"),
     disk_image=CustomDiskImageResource(
-        "disk-image/syscall/syscall-image/syscall",
+        "/root/disk-image/syscall/syscall-image/syscall",
         disk_root_partition="1"
     ),
     readfile_contents=command,

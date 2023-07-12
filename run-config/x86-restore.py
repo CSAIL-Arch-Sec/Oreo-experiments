@@ -41,19 +41,16 @@ from gem5.isas import ISA
 from gem5.coherence_protocol import CoherenceProtocol
 from gem5.resources.resource import (
     Resource,
-    CustomResource,
     CustomDiskImageResource,
 )
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
-from gem5.simulate.exit_event_generators import save_checkpoint_generator
 
 # We check for the required gem5 build.
 
 requires(
     isa_required=ISA.X86,
     coherence_protocol_required=CoherenceProtocol.MESI_TWO_LEVEL,
-    kvm_required=True,
 )
 
 # Setting up all the fixed system parameters here
@@ -93,18 +90,14 @@ board = X86Board(
     cache_hierarchy=cache_hierarchy,
 )
 
-
-command = "echo 'blah blah blah'; m5 exit; m5 exit;"
+command = "echo 'blah blah blah'; m5 exit;"
 
 board.set_kernel_disk_workload(
     # The x86 linux kernel will be automatically downloaded to the
     # `~/.cache/gem5` directory if not already present.
-    # PARSEC benchamarks were tested with kernel version 4.19.83
     kernel=Resource("x86-linux-kernel-4.19.83"),
-    # The x86-parsec image will be automatically downloaded to the
-    # `~/.cache/gem5` directory if not already present.
     disk_image=CustomDiskImageResource(
-        "disk-image/syscall/syscall-image/syscall",
+        "/root/disk-image/syscall/syscall-image/syscall",
         disk_root_partition="1"
     ),
     readfile_contents=command,
@@ -112,9 +105,7 @@ board.set_kernel_disk_workload(
 
 def handle_checkpoint():
     m5.checkpoint(m5.options.outdir)
-    print("checkpoint things")
-    yield False
-    #save_checkpoint_generator(m5.options.outdir)
+    yield True
 
 simulator = Simulator(
     board=board,
@@ -130,11 +121,7 @@ print("Running the simulation")
 print("Using KVM cpu")
 
 # We start the simulation
-#m5.instantiate(m5.options.outdir)
 simulator.run()
 
 print("All simulation events were successful.")
-
-# We print the final simulation statistics.
-
 print("Done with the simulation")
