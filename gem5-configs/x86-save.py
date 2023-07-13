@@ -15,8 +15,6 @@ from gem5.resources.resource import *
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
 
-from common import ObjectList
-
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint generation"
 )
@@ -85,7 +83,7 @@ args = parser.parse_args()
 
 requires(
     isa_required = ISA.X86,
-    kvm_required = ObjectList.is_kvm_cpu(args.cpu_type),
+    kvm_required = args.cpu_type == CPUTypes.KVM,
 )
 
 from gem5.components.cachehierarchies.classic.no_cache import NoCache
