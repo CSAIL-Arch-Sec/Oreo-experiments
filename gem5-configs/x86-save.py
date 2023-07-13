@@ -69,12 +69,12 @@ parser.add_argument(
 
 # checkpoint shenanigans
 
-# uhh enforce slash at end ??
+# uhh enforce no slash at end ??
 
 parser.add_argument(
     "--outputs-dir",
     type = str,
-    default = "/root/experiments/m5outs/"
+    default = "/root/experiments/m5outs"
 )
 
 # parse args blah
@@ -120,7 +120,8 @@ board.set_kernel_disk_workload(
     ),
 )
 
-output_dir = f"{args.outputs_dir}m5out-{uuid4()}/"
+output_dir = f"{args.outputs_dir}/m5outs-{uuid4()}/m5out-gen-cpt"
+os.makedirs(output_dir)
 
 def handle_checkpoint():
     m5.checkpoint(output_dir)
