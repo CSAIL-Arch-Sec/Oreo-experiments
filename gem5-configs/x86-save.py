@@ -125,9 +125,10 @@ board.set_kernel_disk_workload(
 output_dir = f"{args.outputs_dir}/{uuid4()}/m5out-gen-cpt"
 os.makedirs(output_dir)
 setOutputDir(output_dir)
+m5.options.outdir = output_dir
 
 def handle_checkpoint():
-    m5.checkpoint(output_dir)
+    m5.checkpoint(m5.options.outdir)
     yield True
 
 simulator = Simulator(
