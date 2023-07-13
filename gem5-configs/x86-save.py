@@ -16,6 +16,8 @@ from gem5.simulate.exit_event import ExitEvent
 
 from uuid import uuid4
 
+from m5.core import setOutputDir
+
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint generation"
 )
@@ -122,9 +124,10 @@ board.set_kernel_disk_workload(
 
 output_dir = f"{args.outputs_dir}/m5outs-{uuid4()}/m5out-gen-cpt"
 os.makedirs(output_dir)
+setOutputDir(output_dir)
 
 def handle_checkpoint():
-    m5.checkpoint(output_dir)
+    m5.checkpoint()
     yield True
 
 simulator = Simulator(
