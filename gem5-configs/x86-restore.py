@@ -1,34 +1,7 @@
-# Copyright (c) 2021 The Regents of the University of California.
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are
-# met: redistributions of source code must retain the above copyright
-# notice, this list of conditions and the following disclaimer;
-# redistributions in binary form must reproduce the above copyright
-# notice, this list of conditions and the following disclaimer in the
-# documentation and/or other materials provided with the distribution;
-# neither the name of the copyright holders nor the names of its
-# contributors may be used to endorse or promote products derived from
-# this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 import argparse
-import time
+import os
 
 import m5
-from m5.objects import Root
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
@@ -46,11 +19,32 @@ from gem5.resources.resource import (
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
 
+parser = argparse.ArgumentParser(
+    description = "configuration script for checkpoint restore"
+)
+
+parser.add_argument(
+    "--cpu-type",
+    type = lambda name: CPUTypes.__members__.get(name),
+    default = CPUTypes.KVM,
+    help = "cpu type for checkpoint generation",
+    choices = list(CPUTypes.__members__.values()),
+)
+
+parser.add_argument(
+    "--script",
+    type = str,
+    default = "/root/experiments/command-scripts/exit-immediate.rcS",
+    help = "path to script to run ??"
+)
+
+args = parser.parse_args()
+
 # We check for the required gem5 build.
 
 requires(
-    isa_required=ISA.X86,
-    coherence_protocol_required=CoherenceProtocol.MESI_TWO_LEVEL,
+    isa_required = ISA.X86,
+    coherence_protocol_required = CoherenceProtocol.MESI_TWO_LEVEL,
 )
 
 # Setting up all the fixed system parameters here
@@ -76,21 +70,19 @@ cache_hierarchy = MESITwoLevelCacheHierarchy(
 memory = DualChannelDDR4_2400(size="3GB")
 
 processor = SimpleProcessor(
-    cpu_type=CPUTypes.O3,
-    isa=ISA.X86,
-    num_cores=2,
+    cpu_type = args.cpu_type,
+    isa = ISA.X86,
+    num_cores = 2,
 )
 
 # Here we setup the board. The X86Board allows for Full-System X86 simulations
 
 board = X86Board(
-    clk_freq="3GHz",
-    processor=processor,
-    memory=memory,
-    cache_hierarchy=cache_hierarchy,
+    clk_freq = "3GHz",
+    processor = processor,
+    memory = memory,
+    cache_hierarchy = cache_hierarchy,
 )
-
-command = "echo 'blah blah blah'; m5 exit;"
 
 board.set_kernel_disk_workload(
     # The x86 linux kernel will be automatically downloaded to the
@@ -100,7 +92,7 @@ board.set_kernel_disk_workload(
         "/root/experiments/disk-image/syscall/syscall-image/syscall",
         disk_root_partition="1"
     ),
-    readfile_contents=command,
+    readfile = args.script,
 )
 
 def handle_checkpoint():

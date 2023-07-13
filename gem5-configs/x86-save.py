@@ -1,7 +1,6 @@
 import argparse
 
 import m5
-from m5.objects import Root
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
@@ -15,24 +14,17 @@ from gem5.resources.resource import *
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
 
+from uuid import uuid4
+
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint generation"
 )
-
-cpu_choices = list(CPUTypes.__members__.keys())
-
-# parser.add_argument(
-#     "--list-cpu-types",
-#     action = "callback",
-#     callback = [print(choice) for choice in cpu_choices],
-#     help = "list cpu types"
-# )
 
 parser.add_argument(
     "--cpu-type",
     type = lambda name: CPUTypes.__members__.get(name),
     default = CPUTypes.KVM,
-    help = "cpu type for run",
+    help = "cpu type for checkpoint generation",
     choices = list(CPUTypes.__members__.values()),
 )
 
@@ -48,7 +40,7 @@ parser.add_argument(
     "--cpu-cores",
     # type = positive_int_arg_filter,
     type = int,
-    default = 1,
+    default = 2,
     help = "number of cpu cores for run"
 )
 
@@ -73,6 +65,16 @@ parser.add_argument(
     type = str,
     default = "1",
     help = "root partiton of disk image"
+)
+
+# checkpoint shenanigans
+
+# uhh enforce slash at end ??
+
+parser.add_argument(
+    "--outputs-dir",
+    type = str,
+    default = "/root/experiments/m5outs/"
 )
 
 # parse args blah
@@ -111,15 +113,17 @@ board = X86Board(
 board.set_kernel_disk_workload(
     # The x86 linux kernel will be automatically downloaded to the
     # `~/.cache/gem5` directory if not already present.
-    kernel=Resource("x86-linux-kernel-4.19.83"),
-    disk_image=CustomDiskImageResource(
+    kernel = Resource("x86-linux-kernel-4.19.83"),
+    disk_image = CustomDiskImageResource(
         local_path = args.disk_image_path,
         disk_root_partition = args.disk_root_partition
     ),
 )
 
+output_dir = f"{args.outputs_dir}m5out-{uuid4()}/"
+
 def handle_checkpoint():
-    m5.checkpoint(m5.options.outdir)
+    m5.checkpoint(output_dir)
     yield True
 
 simulator = Simulator(
@@ -133,5 +137,4 @@ print("Starting simulation")
 
 simulator.run()
 
-print("All simulation events were successful.")
 print("Done with the simulation")
