@@ -127,7 +127,7 @@ os.makedirs(output_dir)
 setOutputDir(output_dir)
 
 def handle_checkpoint():
-    m5.checkpoint(m5.options.outdir)
+    m5.checkpoint(f"{output_dir}/")
     yield True
 
 simulator = Simulator(
