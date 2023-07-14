@@ -1,1 +1,3 @@
+echo "running default command script!"
+echo "this exits immediately ;-;"
 m5 exit
