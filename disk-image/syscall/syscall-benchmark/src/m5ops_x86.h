@@ -1,2 +1,11 @@
-#define M5_RESETSTATS mov $0, %rdi; mov $0, %rsi; .word 0x040F; .word 0x0040
-#define M5_DUMPSTATS  mov $0, %rdi; mov $0, %rsi; .word 0x040F; .word 0x0041
+#define M5_RESET_STATS \
+    mov $0, %rdi \
+    mov $0, %rsi \
+    .byte 0x0F, 0x04 \
+    .word 0x40
+
+#define M5_DUMP_STATS \
+    mov $0, %rdi \
+    mov $0, %rsi \
+    .byte 0x0F, 0x04 \
+    .word 0x41

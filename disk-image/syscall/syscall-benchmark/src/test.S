@@ -1,14 +1,16 @@
-#include "m5ops_x86.h"
+#include "m5ops/m5ops.h"
 
 .text
 .global _start
+
 _start:
-#	M5_RESETSTATS
+
+	M5_DUMP_STATS
 
 	mov $39, %rax
 	syscall
 
-#	M5_DUMPSTATS
+	M5_RESET_STATS
 
 	mov $60, %rax
 	syscall
