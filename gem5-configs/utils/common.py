@@ -17,3 +17,7 @@ def setOutDir(outdir):
     os.makedirs(outdir)
     setOutputDir(outdir)
     m5.options.outdir = outdir
+
+def handle_checkpoint():
+    m5.checkpoint(m5.options.outdir)
+    yield True

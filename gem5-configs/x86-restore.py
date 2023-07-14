@@ -138,10 +138,6 @@ parent_dir, _ = os.path.split(checkpoint_dir)
 output_dir = f'{parent_dir}/m5out-{uuid4()}'
 setOutDir(output_dir)
 
-def handle_checkpoint():
-    m5.checkpoint(m5.options.outdir)
-    yield True
-
 simulator = Simulator(
     board=board,
     on_exit_event={
