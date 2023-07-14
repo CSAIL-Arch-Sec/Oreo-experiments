@@ -27,7 +27,7 @@ parser.add_argument(
     type = lambda name: CPUTypes.__members__.get(name),
     default = CPUTypes.KVM,
     help = "cpu type for checkpoint generation",
-    choices = list(CPUTypes.__members__.values()),
+    choices = [cpu_type.value for cpu_name, cpu_type in CPUTypes.__members__.items()),
 )
 
 # cpu cores

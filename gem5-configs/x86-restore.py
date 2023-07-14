@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import sys
+from uuid import uuid4
 
 import m5
 from m5.core import setOutputDir
@@ -24,12 +25,14 @@ parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint restore"
 )
 
+print(CPUTypes.__members__)
+
 parser.add_argument(
     "--cpu-type",
     type = lambda name: CPUTypes.__members__.get(name),
     default = CPUTypes.KVM,
     help = "cpu type for checkpoint generation",
-    choices = list(CPUTypes.__members__.values()),
+    choices = [type for name, type in CPUTypes.__members__.items()],
 )
 
 parser.add_argument(
@@ -65,7 +68,7 @@ elif args.checkpoint_dir and args.checkpoint_id:
     parser.error('Please specify only one of --checkpoint-dir or --checkpoint-id, thanks :D')
 
 checkpoint_dir = args.checkpoint_dir or \
-    f"/root/protect-kaslr/experiments/m5outs/{args.checkpoint_id}/m5out-gen-cpt"
+    f"/root/experiments/m5outs/{args.checkpoint_id}/m5out-gen-cpt"
     # f"/Users/jzha/protect-kaslr/experiments/m5outs/{args.checkpoint_id}/m5out-gen-cpt"
 
 with open(f"{checkpoint_dir}/config.json") as f:
@@ -139,7 +142,8 @@ board.set_kernel_disk_workload(
     readfile = args.script,
 )
 
-output_dir = f"{checkpoint_dir}/m5out-gen-cpt"
+parent_dir, _ = os.path.split(checkpoint_dir)
+output_dir = f'{parent_dir}/m5out-{uuid4()}'
 os.makedirs(output_dir)
 setOutputDir(output_dir)
 m5.options.outdir = output_dir
@@ -153,7 +157,7 @@ simulator = Simulator(
     on_exit_event={
         ExitEvent.CHECKPOINT: handle_checkpoint(),
     },
-    checkpoint_path = m5.options.outdir,
+    checkpoint_path = checkpoint_dir,
 )
 
 print("Running the simulation")
