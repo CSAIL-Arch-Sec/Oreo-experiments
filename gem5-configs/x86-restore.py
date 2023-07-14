@@ -4,6 +4,8 @@ import os
 import sys
 
 import m5
+from m5.core import setOutputDir
+
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
@@ -136,6 +138,11 @@ board.set_kernel_disk_workload(
     ),
     readfile = args.script,
 )
+
+output_dir = f"{checkpoint_dir}/m5out-gen-cpt"
+os.makedirs(output_dir)
+setOutputDir(output_dir)
+m5.options.outdir = output_dir
 
 def handle_checkpoint():
     m5.checkpoint(m5.options.outdir)
