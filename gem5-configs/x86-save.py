@@ -16,19 +16,13 @@ from gem5.simulate.exit_event import ExitEvent
 
 from uuid import uuid4
 
-from m5.core import setOutputDir
+from checkpoint.common import *
 
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint generation"
 )
 
-parser.add_argument(
-    "--cpu-type",
-    type = lambda name: CPUTypes.__members__.get(name),
-    default = CPUTypes.KVM,
-    help = "cpu type for checkpoint generation",
-    choices = [cpu_type.value for cpu_name, cpu_type in CPUTypes.__members__.items()),
-)
+addCPUTypeArgument(parser, default = CPUTypes.KVM)
 
 # cpu cores
 
@@ -123,9 +117,7 @@ board.set_kernel_disk_workload(
 )
 
 output_dir = f"{args.outputs_dir}/{uuid4()}/m5out-gen-cpt"
-os.makedirs(output_dir)
-setOutputDir(output_dir)
-m5.options.outdir = output_dir
+setOutDir(output_dir)
 
 def handle_checkpoint():
     m5.checkpoint(m5.options.outdir)

@@ -5,8 +5,6 @@ import sys
 from uuid import uuid4
 
 import m5
-from m5.core import setOutputDir
-
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
@@ -21,19 +19,13 @@ from gem5.resources.resource import *
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
 
+from checkpoint.common import *
+
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint restore"
 )
 
-print(CPUTypes.__members__)
-
-parser.add_argument(
-    "--cpu-type",
-    type = lambda name: CPUTypes.__members__.get(name),
-    default = CPUTypes.KVM,
-    help = "cpu type for checkpoint generation",
-    choices = [type for name, type in CPUTypes.__members__.items()],
-)
+addCPUTypeArgument(parser, default = CPUTypes.O3)
 
 parser.add_argument(
     "--script",
@@ -144,9 +136,7 @@ board.set_kernel_disk_workload(
 
 parent_dir, _ = os.path.split(checkpoint_dir)
 output_dir = f'{parent_dir}/m5out-{uuid4()}'
-os.makedirs(output_dir)
-setOutputDir(output_dir)
-m5.options.outdir = output_dir
+setOutDir(output_dir)
 
 def handle_checkpoint():
     m5.checkpoint(m5.options.outdir)
