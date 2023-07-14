@@ -53,6 +53,8 @@ parser.add_argument(
     help = "disk image path to use for run"
 )
 
+# maybe more sensible "default" would be Resource("x86-ubuntu-18.04-img") ??
+
 parser.add_argument(
     "--disk-root-partition",
     type = str,

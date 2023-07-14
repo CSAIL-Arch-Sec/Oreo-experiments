@@ -136,10 +136,22 @@ parent_dir, _ = os.path.split(checkpoint_dir)
 output_dir = f'{parent_dir}/m5out-{uuid4()}'
 setOutDir(output_dir)
 
+def handle_workbegin():
+    print("Resetting stats at the start of ROI!")
+    m5.stats.reset()
+    yield False
+
+def handle_workend():
+    m5.stats.dump()
+    print("Dump stats at the end of the ROI!")
+    yield True
+
 simulator = Simulator(
     board=board,
     on_exit_event={
         ExitEvent.CHECKPOINT: handle_checkpoint(),
+        ExitEvent.WORKBEGIN: handle_workbegin(),
+        ExitEvent.WORKEND: handle_workend(),
     },
     checkpoint_path = checkpoint_dir,
 )
