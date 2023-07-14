@@ -2,3 +2,5 @@ disk-image/syscall/syscall-image
 disk-image/syscall/syscall-benchmark/bin
 disk-image/packer
 disk-image/packer-log.txt
+m5outs/*
+m5out/*
