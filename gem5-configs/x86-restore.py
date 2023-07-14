@@ -19,7 +19,7 @@ from gem5.resources.resource import *
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
 
-from checkpoint.common import *
+from .common import *
 
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint restore"
@@ -30,7 +30,7 @@ addCPUTypeArgument(parser, default = CPUTypes.O3)
 parser.add_argument(
     "--script",
     type = str,
-    default = "/root/experiments/command-scripts/exit-immediate.rcS",
+    default = "/root/experiments/command-scripts/exit_immediate.rcS",
     help = "path to script to run ??"
 )
 
