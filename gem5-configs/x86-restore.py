@@ -4,8 +4,6 @@ import os
 import sys
 from uuid import uuid4
 
-import m5
-
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
 from gem5.components.memory import DualChannelDDR4_2400

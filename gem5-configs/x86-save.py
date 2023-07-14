@@ -1,6 +1,5 @@
 import argparse
-
-import m5
+from uuid import uuid4
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
@@ -13,8 +12,6 @@ from gem5.isas import ISA
 from gem5.resources.resource import *
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
-
-from uuid import uuid4
 
 from utils.common import *
 
@@ -44,7 +41,7 @@ parser.add_argument(
 
 parser.add_argument(
     "--kernel",
-    type = lambda path: CustomResource.__init__(str(path)),
+    type = lambda path: CustomResource(str(path)),
     default = Resource("x86-linux-kernel-4.19.83"),
     help = "kernel to use for run"
 )
