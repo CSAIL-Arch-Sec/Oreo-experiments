@@ -16,7 +16,7 @@ from gem5.simulate.exit_event import ExitEvent
 
 from uuid import uuid4
 
-from .common import *
+from utils.common import *
 
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint generation"

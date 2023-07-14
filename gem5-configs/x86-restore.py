@@ -19,7 +19,7 @@ from gem5.resources.resource import *
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
 
-from .common import *
+from utils.common import *
 
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint restore"
