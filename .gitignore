@@ -4,3 +4,7 @@ disk-image/packer
 disk-image/packer-log.txt
 m5outs/*
 m5out/*
+
+__pycache__/
+*.py[cod]
+*$py.class

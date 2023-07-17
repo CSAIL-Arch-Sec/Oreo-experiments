@@ -53,7 +53,7 @@
     [
         {
             "type": "file",
-            "source": "../gem5/util/m5/build/x86/out/m5",
+            "source": "/root/gem5/util/m5/build/x86/out/m5",
             "destination": "/home/gem5/"
         },
         {

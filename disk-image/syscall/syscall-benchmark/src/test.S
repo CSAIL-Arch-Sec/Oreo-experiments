@@ -1,4 +1,4 @@
-#include "m5ops/m5ops.h"
+#include "m5ops_x86.h"
 
 .text
 .global _start
