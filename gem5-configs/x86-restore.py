@@ -3,6 +3,7 @@ import json
 import os
 import sys
 from uuid import uuid4
+import glob
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
@@ -53,15 +54,17 @@ args = parser.parse_args()
 # things for reading generated checkpoint config
 
 if not (args.checkpoint_dir or args.checkpoint_id):
-    parser.error('No checkpoint specified, please provide one of --checkpoint-dir or --checkpoint-id, thanks :D')
+    print('No checkpoint specified, defaulting to most recent from default save location...')
+    checkpoint_parent_dir = max(glob.iglob(f"{m5outs_default_dir}/*"), key=os.path.getctime)
+    checkpoint_dir = os.path.join(checkpoint_parent_dir, "m5out-gen-cpt")
 elif args.checkpoint_dir and args.checkpoint_id:
     parser.error('Please specify only one of --checkpoint-dir or --checkpoint-id, thanks :D')
+else:
+    checkpoint_dir = args.checkpoint_dir or \
+        os.path.join(m5outs_default_dir, args.checkpoint_id, "m5out-gen-cpt")
+        # f"/Users/jzha/protect-kaslr/experiments/m5outs/{args.checkpoint_id}/m5out-gen-cpt"
 
-checkpoint_dir = args.checkpoint_dir or \
-    f"/root/experiments/m5outs/{args.checkpoint_id}/m5out-gen-cpt"
-    # f"/Users/jzha/protect-kaslr/experiments/m5outs/{args.checkpoint_id}/m5out-gen-cpt"
-
-with open(f"{checkpoint_dir}/config.json") as f:
+with open(os.path.join(checkpoint_dir, "config.json")) as f:
     config = json.load(f)
 
 cpu_cores = len(config.get("board").get("processor").get("cores"))
@@ -133,7 +136,7 @@ board.set_kernel_disk_workload(
 )
 
 parent_dir, _ = os.path.split(checkpoint_dir)
-output_dir = f'{parent_dir}/m5out-{uuid4()}'
+output_dir = os.path.join(parent_dir, f'm5out-{uuid4()}')
 setOutDir(output_dir)
 
 def handle_workbegin():

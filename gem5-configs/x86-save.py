@@ -69,7 +69,7 @@ parser.add_argument(
 parser.add_argument(
     "--outputs-dir",
     type = str,
-    default = "/root/experiments/m5outs"
+    default = m5outs_default_dir
 )
 
 # parse args blah
@@ -115,7 +115,7 @@ board.set_kernel_disk_workload(
     ),
 )
 
-output_dir = f"{args.outputs_dir}/{uuid4()}/m5out-gen-cpt"
+output_dir = os.path.join(args.outputs_dir, str(uuid4()), "m5out-gen-cpt")
 setOutDir(output_dir)
 
 simulator = Simulator(
