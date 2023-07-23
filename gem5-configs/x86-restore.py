@@ -71,14 +71,23 @@ cpu_cores = len(config.get("board").get("processor").get("cores"))
 print(f'num_cores: {cpu_cores}')
 
 kernel_path = config.get("board").get("workload").get("object_file")
-print(f'kernel path: {kernel_path}')
+print(f'kernel_path: {kernel_path}')
+
+load_addr_mask = config.get("board").get("workload").get("load_addr_mask")
+print(f'load_addr_mask: {hex(load_addr_mask)}')
+
+load_addr_offset = config.get("board").get("workload").get("load_addr_offset")
+print(f'load_addr_offset: {hex(load_addr_offset)}')
+
+addr_check = config.get("board").get("workload").get("addr_check")
+print(f'addr_check: {addr_check}')
 
 disk_image_paths = [disk.get("image").get("child").get("image_file") for disk in \
     config.get("board").get("pc").get("south_bridge").get("ide").get("disks")]
 if len(disk_image_paths) != 1:
     sys.exit("for now we are only dealing with single disk image ;-;")
 disk_image_path = disk_image_paths[0]
-print(f'disk path: {disk_image_path}')
+print(f'disk_image_path: {disk_image_path}')
 
 # We check for the required gem5 build.
 
@@ -122,6 +131,9 @@ board = X86Board(
     processor = processor,
     memory = memory,
     cache_hierarchy = cache_hierarchy,
+    load_addr_mask = load_addr_mask,
+    load_addr_offset = load_addr_offset,
+    addr_check = addr_check
 )
 
 board.set_kernel_disk_workload(

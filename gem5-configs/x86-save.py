@@ -72,6 +72,34 @@ parser.add_argument(
     default = m5outs_default_dir
 )
 
+# kernel addr shenanigans
+
+val_to_int = lambda val: int(val, 0)
+
+parser.add_argument(
+    "--load-addr-mask",
+    type = val_to_int,
+    default = 0xFFFFFFFFFFFFFFFF
+)
+
+parser.add_argument(
+    "--load-addr-offset",
+    type = val_to_int,
+    default = 0
+)
+
+parser.add_argument(
+    '--addr-check', 
+    action = 'store_true',
+    default = True
+)
+
+parser.add_argument(
+    '--no-addr-check', 
+    dest = 'addr_check', 
+    action = 'store_false'
+)
+
 # parse args blah
 
 args = parser.parse_args()
@@ -103,6 +131,9 @@ board = X86Board(
     processor = processor,
     memory = memory,
     cache_hierarchy = NoCache(),
+    load_addr_mask = args.load_addr_mask,
+    load_addr_offset = args.load_addr_offset,
+    addr_check = args.addr_check,
 )
 
 board.set_kernel_disk_workload(
