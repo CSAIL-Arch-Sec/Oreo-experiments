@@ -1,0 +1,5 @@
+echo 'This is running on O3 CPU cores.'
+head /proc/kallsyms
+echo '...'
+sleep 1
+m5 exit
