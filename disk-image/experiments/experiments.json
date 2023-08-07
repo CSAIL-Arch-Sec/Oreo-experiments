@@ -71,9 +71,14 @@
             "source": "experiments/experiments",
             "destination": "/home/gem5/"
         },
-	{
+	    {
             "type": "file",
             "source": "experiments/hack_back_ckpt.rcS",
+            "destination": "/home/gem5/"
+        },
+        {
+            "type": "file",
+            "source": "../../linux",
             "destination": "/home/gem5/"
         },
         {

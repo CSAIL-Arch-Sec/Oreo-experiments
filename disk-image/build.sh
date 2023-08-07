@@ -6,5 +6,5 @@ if [ ! -f ./packer ]; then
     rm packer_${PACKER_VERSION}_linux_amd64.zip;
 fi
 
-./packer validate syscall/syscall.json
-./packer build syscall/syscall.json
+./packer validate experiments/experiments.json
+./packer build experiments/experiments.json

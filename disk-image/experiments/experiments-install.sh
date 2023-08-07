@@ -17,10 +17,10 @@ sudo rm libs.txt
 # Installing packages needed
 sudo apt install -y build-essential
 
-echo "12345" | sudo -S chown gem5 -R syscall-benchmark/
-echo "12345" | sudo -S chgrp gem5 -R syscall-benchmark/
-cd syscall-benchmark
+echo "12345" | sudo -S chown gem5 -R experiments/
+echo "12345" | sudo -S chgrp gem5 -R experiments/
+cd experiments
 ./install.sh
 cd ..
-echo "12345" | sudo -S chown gem5 -R syscall-benchmark/
-echo "12345" | sudo -S chgrp gem5 -R syscall-benchmark/
+echo "12345" | sudo -S chown gem5 -R experiments/
+echo "12345" | sudo -S chgrp gem5 -R experiments/

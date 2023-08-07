@@ -12,6 +12,6 @@ ln -s /sbin/m5 /sbin/gem5
 # copy and run outside (host) script after booting
 cat /home/gem5/hack_back_ckpt.rcS >> /root/.bashrc
 
-sudo chown -R gem5:gem5 /home/gem5/syscall-benchmark/
+sudo chown -R gem5:gem5 /home/gem5/experiments/
 
 echo 'Post Installation Done'

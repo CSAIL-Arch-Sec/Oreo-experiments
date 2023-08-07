@@ -49,7 +49,7 @@ parser.add_argument(
 parser.add_argument(
     "--disk-image-path",
     type = str,
-    default = "/root/experiments/disk-image/syscall/syscall-image/syscall",
+    default = "/root/experiments/disk-image/experiments/experiments-image/experiments",
     help = "disk image path to use for run"
 )
 
