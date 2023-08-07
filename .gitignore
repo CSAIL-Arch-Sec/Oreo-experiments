@@ -12,3 +12,32 @@ m5out/*
 __pycache__/
 *.py[cod]
 *$py.class
+
+# from https://github.com/paulbarbu/loadable-kernel-modules/blob/master/.gitignore
+# .*
+*.o
+*.o.*
+*.a
+*.s
+*.ko
+*.so
+*.so.dbg
+*.mod.c
+*.i
+*.lst
+*.symtypes
+*.order
+modules.builtin
+*.elf
+*.bin
+*.gz
+*.bz2
+*.lzma
+*.xz
+*.lzo
+*.patch
+*.gcno
+
+*.symvers
+*.ko.*
+disk-image/experiments/experiments/modules/.tmp_versions
