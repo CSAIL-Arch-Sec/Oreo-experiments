@@ -1,0 +1,7 @@
+cd /home/gem5/experiments
+insmod hello-1.ko
+dmesg | tail -n10
+modinfo hello-1.ko
+echo $(uname -r)
+sleep 1
+m5 exit
