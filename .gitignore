@@ -1,9 +1,13 @@
-disk-image/syscall/syscall-image
-disk-image/syscall/syscall-benchmark/bin
+disk-image/experiments/experiments-image
+disk-image/experiments/base-ubuntu-image
+disk-image/experiments/experiments/bin
 disk-image/packer
 disk-image/packer-log.txt
 m5outs/*
 m5out/*
+
+*.ext2
+*.ext4
 
 __pycache__/
 *.py[cod]

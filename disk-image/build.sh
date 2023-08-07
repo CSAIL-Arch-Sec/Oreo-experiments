@@ -6,5 +6,5 @@ if [ ! -f ./packer ]; then
     rm packer_${PACKER_VERSION}_linux_amd64.zip;
 fi
 
-./packer validate experiments/experiments.json
-./packer build experiments/experiments.json
+./packer validate experiments/$1.pkr.hcl
+./packer build experiments/$1.pkr.hcl
