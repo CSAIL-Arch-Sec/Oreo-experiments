@@ -22,7 +22,8 @@ from arguments import *
 from exit_handlers import *
 
 parser = argparse.ArgumentParser(
-    description = "configuration script for checkpoint restore"
+    description = "configuration script for checkpoint restore",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter
 )
 
 add_cpu_arguments(parser, default_type = CPUTypes.O3)
