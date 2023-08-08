@@ -10,6 +10,13 @@ protect-kaslr/
   |
   |____ experiments/    # experiments source code
 ```
+By default, outputs from save and restore runs will be in:
+```
+experiments/m5outs/default-save/m5out-gen-cpt/
+```
+```
+experiments/m5outs/default-save/m5out-default-restore/
+```
 
 ## Save checkpoint
 ```
