@@ -12,15 +12,11 @@ protect-kaslr/
 ```
 
 ## Save checkpoint
-From the protect-kaslr directory
-Example:
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py --kernel linux/vmlinux_gem5 --cpu-type KVM --checkpoint 1000000000000
 ```
 
 ## Restore checkpoint
-From the protect-kaslr directory
-Example:
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py --cpu-type TIMING --checkpoint-tick 1000000000000
 ```
