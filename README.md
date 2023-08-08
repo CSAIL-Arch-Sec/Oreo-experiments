@@ -22,7 +22,7 @@ cd experiments/disk-image
 
 if an image is already built, running the build again will make it complain if it's not removed first (i haven't gotten around to fixing that yet oops)
 
-everything in disk-image/experiments/experiments/ will be put on the image (which the save/restore scripts currently use by default)
+everything in disk-image/experiments/experiments/ will be put on the image (which the save/restore scripts currently use by default, but you can also specify your own image to use)
 
 ## Saving and restoring checkpoints
 By default, outputs from save and restore runs will be in:
@@ -64,6 +64,7 @@ gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
     --checkpoint 1000000000000,1000000000000,10
 ```
 X,Y,Z means X, X+Y, X+2Y, ..., X+(Z-1)Y
+
 can also have both single and periodic (e.g. --checkpoint 1 2 3,4,5 6,7,8 100 is valid)
 ### Restore checkpoint from specific tick checkpoint
 ```
