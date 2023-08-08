@@ -10,6 +10,7 @@ protect-kaslr/
   |
   |____ experiments/    # experiments source code
 ```
+(at the moment some of the default paths might be assuming running within the docker container setup in protect-kaslr-linux, need to fix that oop)
 
 ## Generate disk image
 right now it's set up to first generate a "base" image then install whatever in a second stage so installing from iso doesn't need to happen every time
