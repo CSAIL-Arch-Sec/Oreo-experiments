@@ -10,6 +10,14 @@ protect-kaslr/
   |
   |____ experiments/    # experiments source code
 ```
+
+## Generate disk image
+```
+cd disk-image
+asdf
+```
+
+## Saving and restoring checkpoints
 By default, outputs from save and restore runs will be in:
 ```
 experiments/m5outs/default-save/m5out-gen-cpt/
@@ -17,8 +25,6 @@ experiments/m5outs/default-save/m5out-gen-cpt/
 ```
 experiments/m5outs/default-save/m5out-default-restore/
 ```
-
-## Saving and restoring checkpoints
 
 ### Save checkpoint at boot end
 ```
