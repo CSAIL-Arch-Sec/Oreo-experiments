@@ -44,7 +44,7 @@ gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
 ### Restore checkpoint from boot end
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py \
-    --cpu-type O3 \
+    --cpu-type O3
 ```
 
 ### Save checkpoint at given ticks
@@ -54,7 +54,13 @@ gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
     --cpu-type KVM \
     --checkpoint 1000000000000 2000000000000 3000000000000
 ```
-
+### Save checkpoint at given ticks periodically
+```
+gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
+    --kernel linux/vmlinux_gem5 \
+    --cpu-type KVM \
+    --checkpoint 1000000000000,1000000000000,10
+```
 ### Restore checkpoint from specific tick checkpoint
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py \
