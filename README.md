@@ -34,6 +34,15 @@ experiments/m5outs/default-save/m5out-default-restore/
 ```
 there are also a bunch of random options most of which don't really need to be set, mainly just cpu type
 
+can run something like
+```
+gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py --help
+```
+```
+gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py --help
+```
+to see available arguments
+
 ### Save checkpoint at boot end
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
