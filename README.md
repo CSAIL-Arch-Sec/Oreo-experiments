@@ -48,6 +48,7 @@ gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py \
 ```
 
 ### Save checkpoint at given ticks
+this takes checkpoints at ticks 1000000000000, 2000000000000, 3000000000000:
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
     --kernel linux/vmlinux_gem5 \
@@ -55,12 +56,15 @@ gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
     --checkpoint 1000000000000 2000000000000 3000000000000
 ```
 ### Save checkpoint at given ticks periodically
+this takes checkpoints at ticks 1000000000000, 2000000000000, ..., 10000000000000:
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
     --kernel linux/vmlinux_gem5 \
     --cpu-type KVM \
     --checkpoint 1000000000000,1000000000000,10
 ```
+X,Y,Z means X, X+Y, X+2Y, ..., X+(Z-1)Y
+can also have both single and periodic (e.g. --checkpoint 1 2 3,4,5 6,7,8 100 is valid)
 ### Restore checkpoint from specific tick checkpoint
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py \
