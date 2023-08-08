@@ -7,7 +7,6 @@ import glob
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
-from gem5.components.memory import DualChannelDDR4_2400
 from gem5.components.processors.simple_processor import (
     SimpleProcessor,
 )
@@ -18,91 +17,94 @@ from gem5.resources.resource import *
 from gem5.simulate.simulator import Simulator
 from gem5.simulate.exit_event import ExitEvent
 
-from utils.common import *
+from utils import *
+from arguments import *
+from exit_handlers import *
 
 parser = argparse.ArgumentParser(
     description = "configuration script for checkpoint restore"
 )
 
-addCPUTypeArgument(parser, default = CPUTypes.O3)
+add_cpu_arguments(parser, default_type = CPUTypes.O3)
 
-parser.add_argument(
-    "--script",
-    type = str,
-    default = "/root/experiments/command-scripts/exit_immediate.rcS",
-    help = "path to script to run ??"
-)
+add_run_script_arguments(parser)
 
-# stuff to help us restore
+add_checkpoint_restore_arguments(parser)
 
-parser.add_argument(
-    "--checkpoint-dir",
-    type = str,
-    default = None,
-    help = "directory of checkpoint to restore from"
-)
-
-parser.add_argument(
-    "--checkpoint-id",
-    type = str,
-    default = None,
-    help = "id of checkpoint to restore from"
-)
+add_std_redirect_arguments(parser)
+add_debug_arguments(parser)
 
 args = parser.parse_args()
+
+pretty_print("Checking for required gem5 build...")
+requires(
+    isa_required = ISA.X86,
+    coherence_protocol_required = CoherenceProtocol.MESI_TWO_LEVEL,
+)
 
 # things for reading generated checkpoint config
 
 if not (args.checkpoint_dir or args.checkpoint_id):
-    print('No checkpoint specified, defaulting to most recent from default save location...')
-    checkpoint_parent_dir = max(glob.iglob(f"{m5outs_default_dir}/*"), key=os.path.getctime)
-    checkpoint_dir = os.path.join(checkpoint_parent_dir, "m5out-gen-cpt")
+    if args.checkpoint_latest:
+        pretty_print('No checkpoint specified, using most recent from default save location...',
+                     MessageType.CHECKPOINT)
+        checkpoint_parent_dir = max(glob.iglob(f"{m5outs_default_dir}/*"), key=os.path.getctime)
+        checkpoint_dir = os.path.join(checkpoint_parent_dir, "m5out-gen-cpt")
+    else:
+        pretty_print('No checkpoint specified, using default from default save location...',
+                     MessageType.CHECKPOINT)
+        checkpoint_dir = os.path.join(m5outs_default_dir, "default-save", "m5out-gen-cpt")
 elif args.checkpoint_dir and args.checkpoint_id:
+    pretty_print('Only one of checkpoint-dir and checkpoint-id should be specified :(', 
+                 MessageType.FAIL)
     parser.error('Please specify only one of --checkpoint-dir or --checkpoint-id, thanks :D')
 else:
     checkpoint_dir = args.checkpoint_dir or \
         os.path.join(m5outs_default_dir, args.checkpoint_id, "m5out-gen-cpt")
-        # f"/Users/jzha/protect-kaslr/experiments/m5outs/{args.checkpoint_id}/m5out-gen-cpt"
 
-with open(os.path.join(checkpoint_dir, "config.json")) as f:
+
+checkpoint_path = checkpoint_dir
+if args.checkpoint_tick is not None:
+    pretty_print(f'Checkpoint tick specified: cpt.tick-{args.checkpoint_tick} will be used instead of default...', 
+                 MessageType.CHECKPOINT)
+    checkpoint_path = os.path.join(checkpoint_path, f'cpt.tick-{args.checkpoint_tick}')   
+pretty_print(f'Using checkpoint at {checkpoint_path}/m5.cpt', MessageType.CHECKPOINT)
+
+
+
+config_dir = os.path.join(checkpoint_dir, "config.json")
+pretty_print(f'Reading configuration from: {config_dir}', MessageType.CONFIG)
+with open(config_dir) as f:
     config = json.load(f)
 
 cpu_cores = len(config.get("board").get("processor").get("cores"))
-print(f'num_cores: {cpu_cores}')
-
 kernel_path = config.get("board").get("workload").get("object_file")
-print(f'kernel_path: {kernel_path}')
-
 load_addr_mask = config.get("board").get("workload").get("load_addr_mask")
-print(f'load_addr_mask: {hex(load_addr_mask)}')
-
 load_addr_offset = config.get("board").get("workload").get("load_addr_offset")
-print(f'load_addr_offset: {hex(load_addr_offset)}')
-
 addr_check = config.get("board").get("workload").get("addr_check")
-print(f'addr_check: {addr_check}')
 
 disk_image_paths = [disk.get("image").get("child").get("image_file") for disk in \
     config.get("board").get("pc").get("south_bridge").get("ide").get("disks")]
 if len(disk_image_paths) != 1:
     sys.exit("for now we are only dealing with single disk image ;-;")
 disk_image_path = disk_image_paths[0]
-print(f'disk_image_path: {disk_image_path}')
 
-# We check for the required gem5 build.
+pretty_print(f'       num_cores: {cpu_cores}', MessageType.CONFIG)
+pretty_print(f'     kernel_path: {kernel_path}', MessageType.CONFIG)
+pretty_print(f'  load_addr_mask: {hex(load_addr_mask)}', MessageType.CONFIG)
+pretty_print(f'load_addr_offset: {hex(load_addr_offset)}', MessageType.CONFIG)
+pretty_print(f'      addr_check: {"enabled" if addr_check else "disabled"}', MessageType.CONFIG)
+pretty_print(f' disk_image_path: {disk_image_path}', MessageType.CONFIG)
 
-requires(
-    isa_required = ISA.X86,
-    coherence_protocol_required = CoherenceProtocol.MESI_TWO_LEVEL,
-)
 
-# Setting up all the fixed system parameters here
-# Caches: MESI Two Level Cache Hierarchy
+
+pretty_print("Setting up fixed system parameters...")
+
+pretty_print("Caches: MESI Two Level Cache Hierarchy")
 
 from gem5.components.cachehierarchies.ruby.mesi_two_level_cache_hierarchy import (
     MESITwoLevelCacheHierarchy,
 )
-
 cache_hierarchy = MESITwoLevelCacheHierarchy(
     l1d_size="32kB",
     l1d_assoc=8,
@@ -113,18 +115,18 @@ cache_hierarchy = MESITwoLevelCacheHierarchy(
     num_l2_banks=2,
 )
 
-# Memory: Dual Channel DDR4 2400 DRAM device.
-# The X86 board only supports 3 GB of main memory.
 
+pretty_print("Memory: Dual Channel DDR4 2400 DRAM device")
+# The X86 board only supports 3 GB of main memory.
+from gem5.components.memory import DualChannelDDR4_2400
 memory = DualChannelDDR4_2400(size="3GB")
+
 
 processor = SimpleProcessor(
     cpu_type = args.cpu_type,
     isa = ISA.X86,
     num_cores = cpu_cores,
 )
-
-# Here we setup the board. The X86Board allows for Full-System X86 simulations
 
 board = X86Board(
     clk_freq = "3GHz",
@@ -140,26 +142,24 @@ board.set_kernel_disk_workload(
     kernel = CustomResource(
         local_path = kernel_path
     ),
-    disk_image=CustomDiskImageResource(
+    disk_image = CustomDiskImageResource(
         local_path = disk_image_path,
         disk_root_partition = "1"
     ),
     readfile = args.script,
 )
+pretty_print(f"Script: {args.script}")
 
 parent_dir, _ = os.path.split(checkpoint_dir)
-output_dir = os.path.join(parent_dir, f'm5out-{uuid4()}')
-setOutDir(output_dir)
+if args.uuid_dir:
+    output_dir = os.path.join(parent_dir, f'm5out-{uuid4()}')
+else:
+    output_dir = os.path.join(parent_dir, "m5out-default-restore")
+set_outdir(output_dir)
 
-def handle_workbegin():
-    print("Resetting stats at the start of ROI!")
-    m5.stats.reset()
-    yield False
+handle_std_redirects(args, output_dir)
+set_debug_file(args, output_dir)
 
-def handle_workend():
-    m5.stats.dump()
-    print("Dump stats at the end of the ROI!")
-    yield True
 
 simulator = Simulator(
     board=board,
@@ -168,11 +168,12 @@ simulator = Simulator(
         ExitEvent.WORKBEGIN: handle_workbegin(),
         ExitEvent.WORKEND: handle_workend(),
     },
-    checkpoint_path = checkpoint_dir,
+    checkpoint_path = checkpoint_path,
 )
 
-print("Running the simulation")
+pretty_print("Starting simulation...", MessageType.MAGENTA)
 
 simulator.run()
 
-print("Done with the simulation")
+pretty_print("Done with the simulation", MessageType.MAGENTA)
+

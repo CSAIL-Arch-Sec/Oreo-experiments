@@ -1,4 +1,4 @@
-cd /home/gem5/experiments
+cd /home/gem5/experiments/modules
 insmod hello-1.ko
 dmesg | tail -n10
 modinfo hello-1.ko
