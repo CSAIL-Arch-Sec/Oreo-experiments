@@ -18,12 +18,15 @@ experiments/m5outs/default-save/m5out-gen-cpt/
 experiments/m5outs/default-save/m5out-default-restore/
 ```
 
-## Save checkpoint
+### Save checkpoint at given ticks
 ```
-gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py --kernel linux/vmlinux_gem5 --cpu-type KVM --checkpoint 1000000000000
+gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py \
+  --kernel linux/vmlinux_gem5 \
+  --cpu-type KVM \
+  --checkpoint 1000000000000 2000000000000 3000000000000
 ```
 
-## Restore checkpoint
+### Restore checkpoint from specific tick checkpoint
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py --cpu-type TIMING --checkpoint-tick 1000000000000
 ```
