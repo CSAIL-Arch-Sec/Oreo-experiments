@@ -41,7 +41,7 @@ gem5/build/X86/gem5.opt experiments/gem5-configs/x86-save.py --help
 ```
 gem5/build/X86/gem5.opt experiments/gem5-configs/x86-restore.py --help
 ```
-to see available arguments
+to see available arguments (sorry it's kinda not ideal to read oop)
 
 ### Save checkpoint at boot end
 ```
