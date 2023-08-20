@@ -2,6 +2,9 @@ CC := gcc
 AS := as
 LD := ld
 
+ASFLAGS :=
+CFLAGS := -Iinclude -g -O0
+
 SRCS_C := $(wildcard src/*.c)
 SRCS_S := $(wildcard src/*.S)
 SRCS := $(SRCS_C) $(SRCS_S)
@@ -19,6 +22,8 @@ TARGETS_S := $(patsubst src/%.S, bin/%, $(SRCS_S))
 TARGETS := $(TARGETS_C) $(TARGETS_S)
 
 # $(info $(TARGETS))
+
+# shd spectre lab
 
 .PHONY: all clean
 

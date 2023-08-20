@@ -2,12 +2,11 @@
 obj-m += hello-1.o 
  
 PWD := $(CURDIR) 
-INCLUDES := -I$(PWD)/../include
-
-ccflags-y += $(INCLUDES)
+# INCLUDES := -I$(PWD)/../include
+# ccflags-y += $(INCLUDES)
  
 all: 
-	make -C $(HOME)/protect-kaslr/linux-v4.19.83/ M=$(PWD) modules 
+	make -C $(HOME)/linux-v5.4.49/ M=$(PWD) modules 
  
 clean: 
-	make -C $(HOME)/protect-kaslr/linux-v4.19.83/ M=$(PWD) clean
+	make -C $(HOME)/linux-v5.4.49/ M=$(PWD) clean

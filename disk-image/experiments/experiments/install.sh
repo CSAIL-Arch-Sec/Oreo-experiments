@@ -1,7 +1,7 @@
-mkdir -p bin
-gcc -ffreestanding -nostdlib src/test.S -o bin/test
+make clean
+make all
 
 cd modules
-make
+make clean
+make all
 cd ..
-# make
