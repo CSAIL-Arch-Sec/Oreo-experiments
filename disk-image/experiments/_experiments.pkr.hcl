@@ -196,7 +196,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-    scripts         = ["experiments/base-experiments-post-installation.sh"]
+    scripts         = ["experiments/base-experiments-install.sh", "experiments/base-experiments-post-installation.sh"]
   }
 
   post-processor "checksum" {
@@ -255,7 +255,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-    scripts         = ["experiments/experiments-post-installation.sh", "experiments/experiments-install.sh"]
+    scripts         = ["experiments/experiments-install.sh", "experiments/experiments-post-installation.sh"]
   }
 
 }

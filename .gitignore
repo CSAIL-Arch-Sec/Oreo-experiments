@@ -1,4 +1,5 @@
 disk-image/experiments/experiments-image
+disk-image/experiments/base-experiments-image
 disk-image/experiments/base-ubuntu-image
 disk-image/experiments/experiments/bin
 disk-image/packer
