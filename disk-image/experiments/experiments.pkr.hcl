@@ -100,6 +100,16 @@ build {
 
   provisioner "file" {
     destination = "/home/gem5/"
+    source      = "/root/linux"
+  }
+
+  provisioner "file" {
+    destination = "/home/gem5/"
+    source      = "/root/linux-v5.4.49"
+  }
+
+  provisioner "file" {
+    destination = "/home/gem5/"
     source      = "experiments/hack_back_ckpt.rcS"
   }
 
