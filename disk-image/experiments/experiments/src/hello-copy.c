@@ -11,6 +11,6 @@ int main() {
       getpid();
       M5_DUMP_STATS(0, 0);
    }
-   printf("exiting simulation ...")
+   printf("exiting simulation ...");
    M5_EXIT(0);
 }

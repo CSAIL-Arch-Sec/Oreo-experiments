@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 // https://gcc.gnu.org/onlinedocs/gcc-4.8.5/cpp/Stringification.html
 #define __STRINGIFY(s...) #s
 #define STRINGIFY(s...) __STRINGIFY(s)
@@ -43,6 +45,9 @@
 
 #define M5OP_WORKLOAD           0x70
 
+// addr version won't work rn i think ;-;
+// would need to get the map m5 mem thing to work first ??
+// or actually like todo: maybe i should just link and compile the m5ops the intended way haha
 
 // hardcode magic memory accesses
 #define __M5_OP_ADDR(num, ...) __asm__ __volatile__ (__M5_OP_ADDR_ASM_STR(num) : : __VA_ARGS__ : "%r11", "%rax")
@@ -146,15 +151,15 @@
 
 
 
-// void m5_arm(uint64_t address) { M5_ARM(address); }
-// void m5_quiesce(void) { M5_QUIESCE(); }
-// void m5_quiesce_ns(uint64_t ns) { M5_QUIESCE_NS(ns); }
+// static inline void m5_arm(uint64_t address) { M5_ARM(address); }
+// static inline void m5_quiesce(void) { M5_QUIESCE(); }
+// static inline void m5_quiesce_ns(uint64_t ns) { M5_QUIESCE_NS(ns); }
 // void m5_quiesce_cycle(uint64_t cycles);
 // uint64_t m5_quiesce_time(void);
 // uint64_t m5_rpns();
 // void m5_wake_cpu(uint64_t cpuid);
 
-// void m5_exit(uint64_t ns_delay);
+// static inline void m5_exit(uint64_t ns_delay) { M5_EXIT(ns_delay); }
 // void m5_fail(uint64_t ns_delay, uint64_t code);
 // unsigned m5_sum(unsigned a, unsigned b, unsigned c,
 //                 unsigned d, unsigned e, unsigned f);
