@@ -4,6 +4,7 @@ import os
 import sys
 from uuid import uuid4
 import glob
+import time
 
 from gem5.utils.requires import requires
 from gem5.components.boards.x86_board import X86Board
@@ -177,4 +178,3 @@ pretty_print("Starting simulation...", MessageType.MAGENTA)
 simulator.run()
 
 pretty_print("Done with the simulation", MessageType.MAGENTA)
-
