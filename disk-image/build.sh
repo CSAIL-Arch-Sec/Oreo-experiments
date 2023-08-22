@@ -6,6 +6,7 @@ if [ ! -f ./packer ]; then
     rm packer_${PACKER_VERSION}_linux_amd64.zip;
 fi
 
+single_stage=false
 while getopts ":s" option; do
   case $option in
     s)

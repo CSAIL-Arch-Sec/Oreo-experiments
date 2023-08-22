@@ -2,6 +2,7 @@ disk-image/experiments/experiments-image
 disk-image/experiments/base-experiments-image
 disk-image/experiments/base-ubuntu-image
 disk-image/experiments/experiments/bin
+disk-image/experiments/LEBench-Sim/lebench_stats.csv
 disk-image/packer
 disk-image/packer-log.txt
 m5outs/*

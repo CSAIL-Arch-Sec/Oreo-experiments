@@ -56,6 +56,27 @@ void print_results(BenchResult *p_res, char *name) {
                 name, res->k_closest, TIME_UNIT, res->mean, TIME_UNIT,
                 res->stddev, TIME_UNIT, res->max, TIME_UNIT,
                 res->min, TIME_UNIT);
+
+            FILE *fp, *fpr;
+
+            fp = fopen("lebench_stats.csv", "a");
+            fpr = fopen("lebench_stats.csv", "r");
+            int c = fgetc(fpr);
+
+            if (c == EOF) {
+                fprintf(fp, 
+                    "name,closest_k (%s),mean (%s),stddev (%s),max (%s),min (%s)\n",
+                    TIME_UNIT, TIME_UNIT, TIME_UNIT, TIME_UNIT, TIME_UNIT);
+            }
+            ungetc(c, fpr);
+            fclose(fpr);
+
+            fprintf(fp,
+                "%s,%.2f,%.2f,%.2f,%.2f,%.2f\n",
+                name, res->k_closest, res->mean, 
+                res->stddev, res->max, res->min);
+
+            fclose(fp);
 #else
             printf("Test finished\n");
 #endif
