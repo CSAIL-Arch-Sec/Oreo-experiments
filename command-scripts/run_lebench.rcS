@@ -1,0 +1,6 @@
+echo "running LEBench..."
+cd /home/gem5/LEBench-Sim
+ls
+ls bin
+./bin/LEBench-run 1 1
+m5 exit
