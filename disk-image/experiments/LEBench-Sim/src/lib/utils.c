@@ -24,6 +24,19 @@
         double _get_duration(TimeType *start, TimeType *end) {
             return *end - *start; // in CPU cycles
         }
+    #elif defined(USE_M5_RPNS)
+        // measure execution time with m5 rpns
+        void _start_timer(TimeType *ts) {
+            *ts = m5_rpns();
+        }
+
+        void _stop_timer(TimeType *ts) {
+            *ts = m5_rpns();
+        }
+
+        double _get_duration(TimeType *start, TimeType *end) {
+            return *end - *start; // in CPU cycles
+        }
     #else
         // measure execution time with Linux gettime
         void _start_timer(TimeType *ts) {

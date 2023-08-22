@@ -19,6 +19,9 @@
     #ifdef USE_RDTSCP
         typedef uint64_t TimeType;
         #define TIME_UNIT "cyc."
+    #elif defined(USE_M5_RPNS)
+        typedef uint64_t TimeType;
+        #define TIME_UNIT "ns"
     #else // USE_RDTSCP
         typedef struct timespec TimeType;
         #define TIME_UNIT "ns"
