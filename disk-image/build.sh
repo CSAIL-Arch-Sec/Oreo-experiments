@@ -18,39 +18,41 @@ while getopts ":s" option; do
   esac
 done
 
+BUILD_STAGE_NAME=${1:-experiments}
+
 if [ "$single_stage" = true ]; then
     echo "building $1-image ..."
     rm -rf experiments/$1-image
-    ./packer validate -only=qemu.$1 experiments/_experiments.pkr.hcl
-    ./packer build  -only=qemu.$1 experiments/_experiments.pkr.hcl
+    ./packer validate -only=qemu.$1 experiments/experiments.pkr.hcl
+    ./packer build  -only=qemu.$1 experiments/experiments.pkr.hcl
 else
-    if [ "$1" == "base-ubuntu" ]; then
-        BUILD_STAGE=0
-    elif [ "$1" == "base-experiments" ]; then
-        BUILD_STAGE=1
-    elif [ "$1" == "experiments" ]; then
-        BUILD_STAGE=2
+    if [ "$BUILD_STAGE_NAME" == "base-ubuntu" ]; then
+        BUILD_STAGE_INDEX=0
+    elif [ "$BUILD_STAGE_NAME" == "base-experiments" ]; then
+        BUILD_STAGE_INDEX=1
+    elif [ "$BUILD_STAGE_NAME" == "experiments" ]; then
+        BUILD_STAGE_INDEX=2
     else
         echo "invalid stage -- options are { base-ubuntu, base-experiments, experiments }"
         exit 1
     fi
 
-    if [ "$BUILD_STAGE" -le "0" ]; then
+    if [ "$BUILD_STAGE_INDEX" -le "0" ]; then
         echo "building base-ubuntu-image ..."
         rm -r experiments/base-ubuntu-image
-        ./packer validate -only=qemu.base-ubuntu experiments/_experiments.pkr.hcl
-        ./packer build  -only=qemu.base-ubuntu experiments/_experiments.pkr.hcl
+        ./packer validate -only=qemu.base-ubuntu experiments/experiments.pkr.hcl
+        ./packer build  -only=qemu.base-ubuntu experiments/experiments.pkr.hcl
     fi
-    if [ "$BUILD_STAGE" -le "1" ]; then
+    if [ "$BUILD_STAGE_INDEX" -le "1" ]; then
         echo "building base-experiments-image ..."
         rm -r experiments/base-experiments-image
-        ./packer validate -only=qemu.base-experiments experiments/_experiments.pkr.hcl
-        ./packer build  -only=qemu.base-experiments experiments/_experiments.pkr.hcl
+        ./packer validate -only=qemu.base-experiments experiments/experiments.pkr.hcl
+        ./packer build  -only=qemu.base-experiments experiments/experiments.pkr.hcl
     fi
-    if [ "$BUILD_STAGE" -le "2" ]; then
+    if [ "$BUILD_STAGE_INDEX" -le "2" ]; then
         echo "building experiments-image ..."
         rm -r experiments/experiments-image
-        ./packer validate -only=qemu.experiments experiments/_experiments.pkr.hcl
-        ./packer build  -only=qemu.experiments experiments/_experiments.pkr.hcl
+        ./packer validate -only=qemu.experiments experiments/experiments.pkr.hcl
+        ./packer build  -only=qemu.experiments experiments/experiments.pkr.hcl
     fi
 fi

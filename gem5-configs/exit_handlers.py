@@ -1,6 +1,6 @@
 import m5
 import os
-from utils import *
+from pretty_print import *
 
 def handle_checkpoint():
     while True:
@@ -35,4 +35,4 @@ def handle_workbegin():
 def handle_workend():
     m5.stats.dump()
     print("Dump stats at the end of the ROI!")
-    yield True
+    yield False

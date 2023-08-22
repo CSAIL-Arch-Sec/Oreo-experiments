@@ -53,18 +53,19 @@ def parse_stats_file(filename):
         file.flush()
         os.fsync(file.fileno())
         while line := file.readline():
-            if line.strip():
-                line = line.rstrip()
-                # print(line)
-                if line == begin_line:
-                    tree[tree_index] = {}
-                elif line == end_line:
-                    tree_index += 1
-                else:
-                    stat_key_str, stat_value, stat_description = parse_stat_line(line)
-                    update_tree(tree, tree_index, stat_key_str, (stat_value, stat_description))
-                    # if len(stat_value_list) > 1: print(stat_value_list)
-                    # print(parse_stat_line(line))
+            if not line.strip():
+                continue
+            line = line.rstrip()
+            # print(line)
+            if line == begin_line:
+                tree[tree_index] = {}
+            elif line == end_line:
+                tree_index += 1
+            else:
+                stat_key_str, stat_value, stat_description = parse_stat_line(line)
+                update_tree(tree, tree_index, stat_key_str, (stat_value, stat_description))
+                # if len(stat_value_list) > 1: print(stat_value_list)
+                # print(parse_stat_line(line))
     return tree
 
 # todo: mildly confused by the histogram stuff, figure out how to interpret that ??

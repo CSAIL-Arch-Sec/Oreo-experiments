@@ -178,3 +178,9 @@ pretty_print("Starting simulation...", MessageType.MAGENTA)
 simulator.run()
 
 pretty_print("Done with the simulation", MessageType.MAGENTA)
+
+roi_ticks_list = simulator.get_roi_ticks()
+# print(roi_ticks_list)
+
+for roi_index, roi_ticks in enumerate(roi_ticks_list):
+    pretty_print(f"Simulated ticks in ROI {roi_index}: {roi_ticks}")
