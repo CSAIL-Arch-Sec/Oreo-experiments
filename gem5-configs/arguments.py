@@ -219,3 +219,21 @@ def add_cache_arguments(parser):
     )
     # TODO: unsure if the MOESI_hammer actually worked or not
     # or actually is checkpointing with cache even needed??
+
+
+def add_lebench_arguments(parser):
+    '''
+    add arguments for configuring LEBench
+    '''
+    # parser.add_argument(
+    #     "--lebench",
+    #     action = 'store_true',
+    #     default = False,
+    #     help = 'enable lebench arguments'
+    # )
+    parser.add_argument(
+        "--lebench-out",
+        type = str,
+        default = None,
+        help = "name for lebench stats output file"
+    )

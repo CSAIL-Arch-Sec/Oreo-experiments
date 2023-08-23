@@ -36,6 +36,8 @@ add_checkpoint_restore_arguments(parser)
 add_std_redirect_arguments(parser)
 add_debug_arguments(parser)
 
+add_lebench_arguments(parser)
+
 args = parser.parse_args()
 
 pretty_print("Checking for required gem5 build...")
@@ -178,6 +180,12 @@ pretty_print("Starting simulation...", MessageType.MAGENTA)
 simulator.run()
 
 pretty_print("Done with the simulation", MessageType.MAGENTA)
+
+if args.lebench_out is not None:
+    os.rename(
+        os.path.join(output_dir, 'lebench_stats.csv'),
+        os.path.join(output_dir, args.lebench_out)
+    )
 
 roi_ticks_list = simulator.get_roi_ticks()
 # print(roi_ticks_list)
