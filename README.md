@@ -13,6 +13,12 @@ protect-kaslr/
 (at the moment some of the default paths might be assuming running within the docker container setup in protect-kaslr-linux, need to fix that oop)
 
 ## Generate disk image
+[Shixin]: I add a clean Linux source of the version that we use for generating disk image since the Linux git repo used for compile Linux is too large (not sure whether it is ok).
+```
+# Outside Docker, in this project's root directory
+wget https://github.com/torvalds/linux/archive/refs/tags/v5.4-rc8.zip
+unzip v5.4-rc8.zip
+```
 right now it's set up to first generate a "base" image then install whatever in a second stage so installing from iso doesn't need to happen every time
 ```
 cd experiments/disk-image

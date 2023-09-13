@@ -181,12 +181,12 @@ build {
 
   provisioner "file" {
     destination = "/home/gem5/"
-    source      = "/root/linux"
+    source      = "/root/experiments/linux-5.4-rc8"
   }
 
   provisioner "file" {
     destination = "/home/gem5/"
-    source      = "/root/linux-v5.4.49"
+    source      = "/root/linux/vmlinux_gem5"
   }
 
   provisioner "file" {
