@@ -181,7 +181,7 @@ build {
 
   provisioner "file" {
     destination = "/home/gem5/"
-    source      = "/root/experiments/linux-5.4-rc8"
+    source      = "/root/linux"
   }
 
   provisioner "file" {

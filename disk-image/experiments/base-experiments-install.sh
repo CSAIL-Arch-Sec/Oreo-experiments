@@ -3,6 +3,9 @@
 
 cd /home/gem5/
 su gem5
+cd linux
+sudo make modules_install
+cd ..
 echo "12345" | sudo -S apt update
 
 # Allowing services to restart while updating some

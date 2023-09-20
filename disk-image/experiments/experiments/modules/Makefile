@@ -6,7 +6,7 @@ PWD := $(CURDIR)
 # ccflags-y += $(INCLUDES)
  
 all: 
-	make -C $(HOME)/linux-5.4-rc8/ M=$(PWD) modules
+	make -C $(HOME)/linux/ M=$(PWD) modules
  
 clean: 
-	make -C $(HOME)/linux-5.4-rc8/ M=$(PWD) clean
+	make -C $(HOME)/linux/ M=$(PWD) clean

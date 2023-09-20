@@ -19,6 +19,7 @@ protect-kaslr/
 wget https://github.com/torvalds/linux/archive/refs/tags/v5.4-rc8.zip
 unzip v5.4-rc8.zip
 ```
+[Shixin] This is not useful anymore since I notice that the repo for compile Linux is needed to install modules.
 right now it's set up to first generate a "base" image then install whatever in a second stage so installing from iso doesn't need to happen every time
 ```
 cd experiments/disk-image
