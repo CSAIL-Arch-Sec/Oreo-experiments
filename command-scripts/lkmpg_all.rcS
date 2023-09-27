@@ -5,11 +5,14 @@ cd /home/gem5/experiments/lkmpg-example-modules
 echo "2"
 ./insert.sh
 echo "3"
-dmesg
-find . -name '*.ko' -exec modinfo {} \;
+./remove.sh
 echo "4"
-echo $(uname -r)
+dmesg
 echo "5"
-sleep 1
+find . -name '*.ko' -exec modinfo {} \;
 echo "6"
+echo $(uname -r)
+echo "7"
+sleep 1
+echo "8"
 m5 exit
