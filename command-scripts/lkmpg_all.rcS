@@ -1,0 +1,15 @@
+echo "0"
+m5 exit
+echo "1"
+cd /home/gem5/experiments/lkmpg-example-modules
+echo "2"
+./insert.sh
+echo "3"
+dmesg
+find . -name '*.ko' -exec modinfo {} \;
+echo "4"
+echo $(uname -r)
+echo "5"
+sleep 1
+echo "6"
+m5 exit
