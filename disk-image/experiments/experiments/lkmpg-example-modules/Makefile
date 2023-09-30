@@ -41,10 +41,11 @@ ccflags-y += -fanalyzer
 endif
 
 all:
-	$(MAKE) -C /lib/modules/$(shell uname -r)/build CC=$(CC) M=$(PWD) modules
+	$(MAKE) -C $(HOME)/linux/ CC=$(CC) M=$(PWD) modules
+
 
 clean:
-	$(MAKE) -C /lib/modules/$(shell uname -r)/build CC=$(CC) M=$(PWD) clean
+	$(MAKE) -C $(HOME)/linux/ M=$(PWD) clean
 	$(RM) other/cat_noblock *.plist
 
 indent:

@@ -1,4 +1,9 @@
-for module in "$@"
+#!/bin/bash  
+shopt -s nullglob
+
+for module in *.ko
 do
-    rmmod ./$module.ko
+    echo "removing $module"
+    rmmod $module
+    echo "removed $module"
 done
