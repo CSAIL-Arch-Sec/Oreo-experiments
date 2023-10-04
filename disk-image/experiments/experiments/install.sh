@@ -21,3 +21,9 @@ make clean
 make
 cd ..
 cd ..
+
+cd blindside
+make -B
+cd module-src
+make -B
+cd ../..

@@ -1,0 +1,28 @@
+echo "0"
+m5 exit
+echo "1"
+cd /home/gem5/experiments/spectre-jz268
+echo "2"
+cd module-src/
+./install.sh
+cd ..
+echo "3"
+
+./part2
+./part2
+./part2
+./part2
+./part2
+
+./part2
+./part2
+./part2
+./part2
+./part2
+
+./check.py 1
+./check.py 2
+
+echo "4"
+sleep 1
+m5 exit
