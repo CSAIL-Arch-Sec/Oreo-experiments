@@ -63,11 +63,27 @@ int test_foo(void) {
     return (foo_x * 353 - foo_y % 23) * foo_x / foo_y;
 }
 
+inline void jump_to_address(void* address) {
+    asm volatile (
+            "call *%0"  // Indirect call to the address pointed to by %0
+            :
+            : "r" (address)
+            : "memory" // clobber memory to prevent compiler optimizations
+            );
+}
+
 void blindside(unsigned long f_ptr, unsigned long idx) {
-    func_ptrs[NUM_TRAIN] = (void *) f_ptr;
+//    int (*f)(void);
+    void *f;
+
+    f = (idx ==  NUM_TRAIN) ? (void *) f_ptr : (void *) test_foo;
+//    func_ptrs[NUM_TRAIN] = (void *) f_ptr;
+//    pr_info("Before clflush Blindside f_ptr: %lx, idx: %lx\n", f_ptr, idx);
     clflush(&secret_leak_limit);
+//    pr_info("After clflush Blindside f_ptr: %lx, idx: %lx\n", f_ptr, idx);
     if (idx != secret_leak_limit)
-        (func_ptrs[idx])();
+        jump_to_address(f);
+    return;
 }
 
 /* This function is called with the /proc file is written. */

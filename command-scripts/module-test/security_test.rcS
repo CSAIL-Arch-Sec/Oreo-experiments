@@ -1,0 +1,8 @@
+echo "Finish Boot"
+m5 exit
+echo "m5 exit"
+cd /home/gem5/experiments/bin
+ls
+./anc
+sleep 10
+m5 exit

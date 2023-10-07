@@ -1,0 +1,13 @@
+echo "Finish Boot"
+cd /home/gem5/experiments/modules
+echo "cd /home/gem5/experiments/modules"
+insmod blindside-kernel.ko
+echo "insmod blindside-kernel.ko"
+cd /home/gem5/experiments/bin
+ls
+m5 exit
+echo "m5 exit"
+./blindside 6
+dmesg | tail -n10
+sleep 10
+m5 exit
