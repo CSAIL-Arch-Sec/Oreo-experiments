@@ -3,7 +3,7 @@ AS := as
 LD := ld
 
 ASFLAGS :=
-CFLAGS := -Iinclude -g -O0
+CFLAGS := -Iinclude -g
 
 SRCS_C := $(wildcard src/*.c)
 SRCS_S := $(wildcard src/*.S)

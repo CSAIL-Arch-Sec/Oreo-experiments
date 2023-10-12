@@ -8,6 +8,9 @@
 #include <linux/proc_fs.h> /* Necessary because we use the proc fs */
 #include <linux/uaccess.h> /* for copy_from_user */
 #include <linux/version.h>
+#include "m5ops.h"
+#include "utils.h"
+#include "dummy.h"
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
 #define HAVE_PROC_OPS
@@ -15,7 +18,7 @@
 
 //#define PROCFS_MAX_SIZE 1024
 #define PROCFS_NAME "blindside-victim"
-#define NUM_TRAIN 5
+#define NUM_TRAIN 1
 
 /* This structure hold information about the /proc file */
 static struct proc_dir_entry *our_proc_file;
@@ -35,23 +38,11 @@ int (*func_ptrs[NUM_TRAIN + 1])(void);
 int foo_x;
 int foo_y;
 static volatile unsigned long __attribute__((aligned(32768))) secret_leak_limit = NUM_TRAIN;
+static volatile unsigned long __attribute__((aligned(32768))) foo_ptr = 0;
 
 /* This function is called then the /proc file is read */
 static ssize_t procfile_read(struct file *file_pointer, char __user *buffer,
                              size_t buffer_length, loff_t *offset) {
-//    char s[13] = "HelloWorld!\n";
-//    int len = sizeof(s);
-//    ssize_t ret = len;
-//
-//    if (*offset >= len || copy_to_user(buffer, s, len)) {
-//        pr_info("copy_to_user failed\n");
-//        ret = 0;
-//    } else {
-//        pr_info("procfile read %s\n", file_pointer->f_path.dentry->d_name.name);
-//        *offset += len;
-//    }
-//
-//    return ret;
     return 0;
 }
 
@@ -63,28 +54,50 @@ int test_foo(void) {
     return (foo_x * 353 - foo_y % 23) * foo_x / foo_y;
 }
 
-inline void jump_to_address(void* address) {
-    asm volatile (
-            "call *%0"  // Indirect call to the address pointed to by %0
-            :
-            : "r" (address)
-            : "memory" // clobber memory to prevent compiler optimizations
-            );
+int test_foo1(void) {
+    if (foo_x == foo_y) {
+        pr_info("test_foo1\n");
+    }
+
+    return (foo_x * 53 - foo_y % 233) * foo_x / foo_y;
+}
+
+int test_foo2(void) {
+    if (foo_x == foo_y) {
+        pr_info("test_foo2\n");
+    }
+
+    return (foo_x * 3 - foo_y % 232) * foo_x / foo_y;
 }
 
 void blindside(unsigned long f_ptr, unsigned long idx) {
 //    int (*f)(void);
-    void *f;
+    void *f, *g;
+    foo_ptr = (idx ==  NUM_TRAIN) ? (unsigned long) test_foo1 : (unsigned long) test_foo;
+    clflush(&foo_ptr);
+    g = (void *) foo_ptr;
+    pr_info("f_ptr %lx, test_foo %lx, test_foo1: %lx, test_foo2: %lx\n",
+            f_ptr, test_foo, test_foo1, test_foo2);
+    jump_to_address(g);
 
-    f = (idx ==  NUM_TRAIN) ? (void *) f_ptr : (void *) test_foo;
 //    func_ptrs[NUM_TRAIN] = (void *) f_ptr;
 //    pr_info("Before clflush Blindside f_ptr: %lx, idx: %lx\n", f_ptr, idx);
+    m5_work_begin(0, 0);
     clflush(&secret_leak_limit);
 //    pr_info("After clflush Blindside f_ptr: %lx, idx: %lx\n", f_ptr, idx);
+    f = (idx ==  NUM_TRAIN) ? (void *) f_ptr : (void *) test_foo;
     if (idx != secret_leak_limit)
         jump_to_address(f);
+    m5_work_end(0, 0);
     return;
 }
+
+//void flush_itlb(void) {
+//    uint64_t i = 0;
+//    for (i = 0; i < sizeof(func) / 8; i++) {
+//        func[i](i, 1);
+//    }
+//}
 
 /* This function is called with the /proc file is written. */
 static ssize_t procfile_write(struct file *file, const char __user *buff,
@@ -97,8 +110,16 @@ static ssize_t procfile_write(struct file *file, const char __user *buff,
 
     if (copy_from_user(&user_cmd, buff, len))
         return -EFAULT;
-
+    pr_info("1\n");
+//    flush_tlb_btb();
+//    asm volatile("mfence");
+//    asm volatile("lfence");
+//    m5_work_begin(0, 0);
+    pr_info("2\n");
     blindside(user_cmd.f_ptr, user_cmd.idx);
+//    m5_work_end(0, 0);
+//    asm volatile("lfence");
+//    asm volatile("mfence");
     pr_info("Blindside f_ptr: %lx, idx: %lx\n", user_cmd.f_ptr, user_cmd.idx);
 
     return len;
