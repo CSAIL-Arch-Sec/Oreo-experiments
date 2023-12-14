@@ -10,7 +10,7 @@
 #include <linux/version.h>
 #include "m5ops.h"
 #include "utils.h"
-#include "dummy.h"
+//#include "dummy.h"
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
 #define HAVE_PROC_OPS
@@ -43,6 +43,11 @@ static volatile unsigned long __attribute__((aligned(32768))) foo_ptr = 0;
 /* This function is called then the /proc file is read */
 static ssize_t procfile_read(struct file *file_pointer, char __user *buffer,
                              size_t buffer_length, loff_t *offset) {
+    // TODO: Changing this may change the existing blindside attack behavior.
+    m5_work_begin(0, 0);
+    foo_x--;
+    foo_y++;
+    m5_work_end(0, 0);
     return 0;
 }
 

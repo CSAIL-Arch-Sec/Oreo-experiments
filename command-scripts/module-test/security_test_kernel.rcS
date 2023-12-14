@@ -7,7 +7,7 @@ cd /home/gem5/experiments/bin
 ls
 m5 exit
 echo "m5 exit"
-./blindside 6
-dmesg | tail -n10
+./blindside 1 0
+dmesg | tail -n50
 sleep 10
 m5 exit
