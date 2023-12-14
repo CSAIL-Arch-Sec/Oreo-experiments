@@ -1,10 +1,11 @@
+echo "Finish Boot"
 cd /home/gem5/LEBench-Sim
+ls bin
 rm -f lebench_stats.csv
-# for i in {0..23}; do ./bin/LEBench-hook $i 1; done
-./bin/LEBench-hook 1 1
-ls
-cat lebench_stats.csv
+m5 exit
+for i in {0..5}; do echo "./bin/LEBench-run $i 1"; ./bin/LEBench-run $i 1; done
 echo "writing lebench_stats.csv back to host :D"
-/sbin/m5 writefile lebench_stats.csv
+m5 writefile lebench_stats.csv
 echo "exiting..."
-/sbin/m5 exit
+sleep 5
+m5 exit

@@ -1,0 +1,6 @@
+m5 exit
+echo "m5 exit"
+ls /lib/modules
+ls /lib/modules/5.4.0-rc8+
+ls /lib/modules/4.15.0-45-generic
+m5 exit

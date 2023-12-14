@@ -3,18 +3,12 @@ m5 exit
 echo "1"
 cd /home/gem5/experiments/lkmpg-example-modules
 echo "2"
-ls
 ./insert.sh
 echo "3"
-./remove.sh
-echo "4"
-sleep 1
-dmesg
+lsmod
 echo "5"
 find . -name '*.ko' -exec modinfo {} \;
 echo "6"
 echo $(uname -r)
 echo "7"
-sleep 1
-echo "8"
 m5 exit
