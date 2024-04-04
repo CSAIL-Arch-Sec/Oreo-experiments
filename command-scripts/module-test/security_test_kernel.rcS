@@ -1,8 +1,8 @@
 echo "Finish Boot"
 cd /home/gem5/experiments/modules
 echo "cd /home/gem5/experiments/modules"
-insmod blindside-kernel.ko
-echo "insmod blindside-kernel.ko"
+insmod blindside_kernel.ko
+echo "insmod blindside_kernel.ko"
 cd /home/gem5/experiments/bin
 ls
 m5 exit

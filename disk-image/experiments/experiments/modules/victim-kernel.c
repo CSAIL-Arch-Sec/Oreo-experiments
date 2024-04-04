@@ -47,7 +47,7 @@ int init_module(void) {
     foo_x = 0;
     foo_y = 1;
 
-    blindside_victim = proc_create("blindside-victim", 0, NULL, &blindside_victim_ops);
+    blindside_victim = proc_create("blindside_victim", 0, NULL, &blindside_victim_ops);
 
     /* A non 0 return means init_module failed; module can't be loaded. */
     return 0;

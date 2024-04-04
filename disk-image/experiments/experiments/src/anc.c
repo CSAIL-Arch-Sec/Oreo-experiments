@@ -12,7 +12,7 @@
 #include "dummy.h"
 #include "m5ops.h"
 
-#define PROCFS_NAME "blindside-victim"
+#define PROCFS_NAME "blindside_victim"
 #define START_KERNEL 0xffffffff80000000
 #define ALIGN 0x2000000
 #define NUM_OFFSETS 32

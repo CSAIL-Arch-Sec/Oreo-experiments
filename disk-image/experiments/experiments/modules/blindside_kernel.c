@@ -17,7 +17,7 @@
 #endif
 
 //#define PROCFS_MAX_SIZE 1024
-#define PROCFS_NAME "blindside-victim"
+#define PROCFS_NAME "blindside_victim"
 #define NUM_TRAIN 1
 
 /* This structure hold information about the /proc file */

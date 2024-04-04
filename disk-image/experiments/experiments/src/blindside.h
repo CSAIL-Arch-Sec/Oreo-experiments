@@ -12,7 +12,7 @@
 #include <sys/syscall.h>
 #include "m5ops.h"
 
-#define PROCFS_NAME "blindside-victim"
+#define PROCFS_NAME "blindside_victim"
 #define NUM_TRAIN 1
 
 #define START_KERNEL 0xffffffff80000000

@@ -1,6 +1,6 @@
 # https://sysprog21.github.io/lkmpg/
 obj-m += hello-1.o
-obj-m += blindside-kernel.o
+obj-m += blindside_kernel.o
  
 PWD := $(CURDIR) 
 # INCLUDES := -I$(PWD)/../include
