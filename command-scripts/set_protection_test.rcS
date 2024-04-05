@@ -1,0 +1,12 @@
+cd /home/gem5/experiments/modules
+echo "1"
+insmod blindside_kernel.ko
+echo "2"
+/home/gem5/experiments/bin/set_protection 6 0
+echo "3"
+insmod hello-1.ko
+echo "4"
+dmesg | tail -n10
+echo "5"
+sleep 10
+m5 exit
