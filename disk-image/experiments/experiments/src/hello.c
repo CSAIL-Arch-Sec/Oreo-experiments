@@ -1,5 +1,10 @@
 #include <stdio.h>
 
+int foo() {
+    return 1;
+}
+
 int main() {
-   printf("hello world");
+    int x = 0;
+    printf("hello world foo %p &x %p\n", foo, &x);
 }
