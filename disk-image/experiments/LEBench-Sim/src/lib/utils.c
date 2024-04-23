@@ -103,7 +103,7 @@ void aggregate(double *data, size_t size, double *mean, double *stddev,
 
         for (size_t idx = 0; idx < size; idx++) {
             if (iter == 0 || fabs(data[idx] - _avg) < TOLERANCE * _stddev) {
-                avg += data[idx] / (double)valid_size;
+                avg += data[idx];
                 *max = data[idx] > *max ? data[idx] : *max;
                 *min = data[idx] < *min ? data[idx] : *min;
             } else {
@@ -115,7 +115,7 @@ void aggregate(double *data, size_t size, double *mean, double *stddev,
         // account for the removed
         valid_size -= removed;
         if (valid_size) {
-            avg *= (valid_size + removed) / valid_size;
+            avg /= (double) valid_size;
         } else {
             fprintf(stderr,
                     ZWARN "Too much noise! Stick to results from iteration: %lu\n",
