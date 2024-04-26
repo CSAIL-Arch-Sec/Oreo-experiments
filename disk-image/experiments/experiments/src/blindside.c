@@ -45,9 +45,9 @@ void test_one_address(int kernel_fd, size_t test_addr) {
     // Start Probing
     printf("Test addr: %lx\n", test_addr);
 //    m5_reset_stats(0, 0);
-//    m5_work_begin(round, 0);
+    m5_work_begin(0, 0);
     call_kernel(kernel_fd, test_addr, NUM_TRAIN);
-//    m5_work_end(round, 0);
+    m5_work_end(0, 0);
     // End Probing
 }
 
@@ -66,9 +66,11 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
+//    m5_work_begin(0, 0);
     if (argc > 1) {
         probe_module = atoi(argv[1]);
     }
+//    m5_work_end(0, 0);
 
 #ifdef TEST_ONE
     if (argc > 2) {

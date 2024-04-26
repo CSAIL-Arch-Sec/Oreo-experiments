@@ -81,19 +81,19 @@ void blindside(unsigned long f_ptr, unsigned long idx) {
     foo_ptr = (idx ==  NUM_TRAIN) ? (unsigned long) test_foo1 : (unsigned long) test_foo;
     clflush(&foo_ptr);
     g = (void *) foo_ptr;
-    pr_info("f_ptr %lx, test_foo %lx, test_foo1: %lx, test_foo2: %lx\n",
-            f_ptr, test_foo, test_foo1, test_foo2);
+    pr_info("test_foo %lx, test_foo1: %lx, test_foo2: %lx\n",
+            test_foo, test_foo1, test_foo2);
     jump_to_address(g);
 
 //    func_ptrs[NUM_TRAIN] = (void *) f_ptr;
 //    pr_info("Before clflush Blindside f_ptr: %lx, idx: %lx\n", f_ptr, idx);
-    m5_work_begin(0, 0);
+//    m5_work_begin(0, 0);
     clflush(&secret_leak_limit);
 //    pr_info("After clflush Blindside f_ptr: %lx, idx: %lx\n", f_ptr, idx);
     f = (idx ==  NUM_TRAIN) ? (void *) f_ptr : (void *) test_foo;
     if (idx != secret_leak_limit)
         jump_to_address(f);
-    m5_work_end(0, 0);
+//    m5_work_end(0, 0);
     return;
 }
 
@@ -125,7 +125,7 @@ static ssize_t procfile_write(struct file *file, const char __user *buff,
 //    m5_work_end(0, 0);
 //    asm volatile("lfence");
 //    asm volatile("mfence");
-    pr_info("Blindside f_ptr: %lx, idx: %lx\n", user_cmd.f_ptr, user_cmd.idx);
+    pr_info("Blindside\n");
 
     return len;
 }
