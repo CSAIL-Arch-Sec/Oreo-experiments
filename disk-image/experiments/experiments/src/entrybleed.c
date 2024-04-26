@@ -6,7 +6,7 @@
 
 #define START_KERNEL 0xffffff8001000000
 #define ALIGN 0x80000000
-#define NUM_OFFSETS 256
+#define NUM_OFFSETS 222
 
 uint64_t sidechannel(uint64_t addr) {
     uint64_t a, b, c, d;
