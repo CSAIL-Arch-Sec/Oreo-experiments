@@ -56,24 +56,24 @@ def copy_files(src_list: list[Path], dest_path: Path, ssh_dest: str, ssh_passwor
 
 def base_setup(ssh_dest: str, ssh_password: str, gem5_suffix: str, linux_suffix: str):
     dest_path = Path("/home/gem5")
-    # src_list = [
-    #     root_dir / f"gem5{gem5_suffix}/util/m5/build/x86/out/m5",
-    #     disk_dir / "shared/serial-getty@.service",
-    #     disk_dir / "experiments/runscript.sh",
-    #     root_dir / f"linux{linux_suffix}",
-    #     root_dir / f"linux{linux_suffix}/vmlinux_gem5",
-    #     disk_dir / "experiments/hack_back_ckpt.rcS",
-    #     ]
-    # copy_files(src_list, dest_path, ssh_dest, ssh_password)
-    #
-    # # TODO: Also need to check which branch contains the target linux and switch to the correct branch!!!
-    # if linux_suffix != "":
-    #     cmd = f"sshpass -p {ssh_password} ssh {ssh_dest} -t 'mv {dest_path}/linux{linux_suffix} {dest_path}/linux'"
-    #     print(cmd)
-    #     subprocess.run(
-    #         cmd,
-    #         shell=True, stdout=subprocess.PIPE
-    #     )
+    src_list = [
+        root_dir / f"gem5{gem5_suffix}/util/m5/build/x86/out/m5",
+        disk_dir / "shared/serial-getty@.service",
+        disk_dir / "experiments/runscript.sh",
+        root_dir / f"linux{linux_suffix}",
+        root_dir / f"linux{linux_suffix}/vmlinux_gem5",
+        disk_dir / "experiments/hack_back_ckpt.rcS",
+        ]
+    copy_files(src_list, dest_path, ssh_dest, ssh_password)
+
+    # TODO: Also need to check which branch contains the target linux and switch to the correct branch!!!
+    if linux_suffix != "":
+        cmd = f"sshpass -p {ssh_password} ssh {ssh_dest} -t 'mv {dest_path}/linux{linux_suffix} {dest_path}/linux'"
+        print(cmd)
+        subprocess.run(
+            cmd,
+            shell=True, stdout=subprocess.PIPE
+        )
 
     # linux_include_path = "arch/x86/include/asm"
     # copy_files([root_dir / f"linux{linux_suffix}" / linux_include_path / "*"],
@@ -93,7 +93,7 @@ def experiments_setup(ssh_dest: str, ssh_password: str):
     dest_path = Path("/home/gem5")
     src_list = [
         disk_dir / "experiments/experiments",
-        # disk_dir / "experiments/LEBench-Sim",
+        disk_dir / "experiments/LEBench-Sim",
         ]
     copy_files(src_list, dest_path, ssh_dest, ssh_password)
 
@@ -109,8 +109,9 @@ def experiments_setup(ssh_dest: str, ssh_password: str):
 def generate_img(vm_path: Path):
     img_dir = vm_path.parent
     img_name = vm_path.stem
+    img_path = img_dir / f"{img_name}.vmdk"
     # TODO: Figure out why this suffix is added to the name!!!
-    img_path = img_dir / f"{img_name}-000001.vmdk"
+    # img_path = img_dir / f"{img_name}-000001.vmdk"
     output_path = disk_dir / f"experiments.img"
     cmd = f"qemu-img convert -f vmdk -O raw {img_path} {output_path}"
     print(cmd)
@@ -131,7 +132,6 @@ def generate_img(vm_path: Path):
 @click.option(
     "--ssh-dest",
     type=click.STRING,
-    default="gem5@192.168.119.128"
 )
 @click.option(
     "--ssh-password",
