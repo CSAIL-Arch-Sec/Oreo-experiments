@@ -1,1 +1,0 @@
-# protect-kaslr-disk-image
