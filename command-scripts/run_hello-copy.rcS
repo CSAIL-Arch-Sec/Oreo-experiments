@@ -1,5 +1,0 @@
-echo "running hello-copy..."
-cd /home/gem5/experiments
-pwd
-ls
-./bin/hello-copy

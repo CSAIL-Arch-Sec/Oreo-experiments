@@ -1,6 +1,0 @@
-echo "Finish Boot"
-m5 exit
-sleep 10
-echo "running default command script!"
-echo "this exits immediately ;-;"
-m5 exit

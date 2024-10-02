@@ -1,6 +1,0 @@
-echo "running test..."
-cd /home/gem5/syscall-benchmark
-./bin/test
-echo "exiting..."
-sleep 2
-m5 exit

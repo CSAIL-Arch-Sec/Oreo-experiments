@@ -1,5 +1,0 @@
-echo "Finish Boot"
-m5 exit
-/home/gem5/experiments/bin/anc
-sleep 1
-m5 exit
