@@ -5,6 +5,9 @@ echo 'Base Installation Started'
 
 cd /home/gem5/linux && sudo make modules_install
 
+sudo apt update
+sudo apt install -y debconf-utils build-essential gfortran
+
 # Allowing services to restart while updating some
 # libraries.
 sudo debconf-get-selections | grep restart-without-asking > /home/gem5/libs.txt
