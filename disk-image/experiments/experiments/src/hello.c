@@ -5,6 +5,5 @@ int foo() {
 }
 
 int main() {
-    int x = 0;
-    printf("hello world foo %p &x %p\n", foo, &x);
+    printf("hello world foo %p\n", foo);
 }
