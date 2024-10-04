@@ -140,7 +140,7 @@ def generate_img(vm_path: Path):
 )
 def main(vm_path: Path, ssh_dest: str, ssh_password: str):
     start_vm(vm_path, ssh_dest, ssh_password)
-    # base_setup(ssh_dest, ssh_password, "-new", "-new")
+    base_setup(ssh_dest, ssh_password, "-new", "-new")
     experiments_setup(ssh_dest, ssh_password)
     stop_vm(vm_path)
     generate_img(vm_path)
