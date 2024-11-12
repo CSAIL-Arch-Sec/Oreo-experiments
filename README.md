@@ -3,14 +3,14 @@
 ## File structure
 ```
 artifact
-    | experiments
+    | experiments # This project
     | gem5-new
     | linux-new
     | cpu2017-1.1.9.iso
     | ...
 ```
 Note: `cpu2017-1.1.9.iso` is the official image for SPEC 2017 benchmarks.
-It will not be provided with the final artifact since it is not open-source.
+It will not be released with the final artifact since it is not open-source.
 
 ## Prerequisite
 Before started, ensure that
