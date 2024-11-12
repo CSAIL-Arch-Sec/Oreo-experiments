@@ -4,8 +4,6 @@
 ```
 artifact
     | experiments
-        | disk-image
-        | ...
     | gem5-new
     | linux-new
     | cpu2017-1.1.9.iso
