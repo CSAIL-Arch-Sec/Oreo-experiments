@@ -1,0 +1,133 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  # config.vm.box = "base"
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.box_version = "20241002.0.0"
+
+#   config.vm.disk :disk, size: "30GB", primary: true
+
+  config.ssh.insert_key = false
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+#   config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+#   config.vm.network "private_network", ip: "192.168.50.4"
+#   config.vm.network :public_network, :dev => "br0", :mode => "bridge", "type" => "bridge"
+#   config.vm.network :private_network, :ip => "192.168.50.4"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+#     vb.gui = true
+
+    # Customize the amount of memory on the VM:
+    vb.cpus = 4
+    vb.memory = "4096"
+  end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+#   config.vm.provider :libvirt do |libvirt|
+#     libvirt.cpus = 4
+#     libvirt.memory = "4096"
+#   end
+
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+
+  # create gem5 user
+  config.vm.provision "shell", inline: <<-SHELL
+    if id "gem5" >/dev/null 2>&1; then
+        echo "user gem5 already created!"
+    else
+        echo "user gem5 not created."
+        useradd -m -s /bin/bash gem5
+        echo gem5:packerubuntu | chpasswd
+        usermod -aG sudo gem5
+        echo "gem5 ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    fi
+  SHELL
+
+  # copy files
+  config.vm.provision "file", source: "../../gem5-new/util/m5/build/x86/out/m5", destination: "/home/vagrant/gem5/m5"
+  config.vm.provision "file", source: "./shared/serial-getty@.service", destination: "/home/vagrant/gem5/serial-getty@.service"
+  config.vm.provision "file", source: "./experiments/runscript.sh", destination: "/home/vagrant/gem5/runscript.sh"
+  config.vm.provision "file", source: "../../linux-new.tar", destination: "/home/vagrant/gem5/linux-new.tar"
+  config.vm.provision "shell", inline: <<-SHELL
+    cd /home/vagrant/gem5
+    tar -xf /home/vagrant/gem5/linux-new.tar
+    rm /home/vagrant/gem5/linux-new.tar
+    mv /home/vagrant/gem5/linux-new /home/vagrant/gem5/linux
+    mv /home/vagrant/gem5/linux/vmlinux_gem5 /home/vagrant/gem5/vmlinux_gem5
+  SHELL
+  config.vm.provision "file", source: "./experiments/hack_back_ckpt.rcS", destination: "/home/vagrant/gem5/hack_back_ckpt.rcS"
+  config.vm.provision "file", source: "./experiments/experiments", destination: "/home/vagrant/gem5/experiments"
+  config.vm.provision "file", source: "./experiments/LEBench-Sim", destination: "/home/vagrant/gem5/LEBench-Sim"
+  config.vm.provision "file", source: "./experiments/base-experiments.sh", destination: "/home/vagrant/gem5/base-experiments.sh"
+  config.vm.provision "file", source: "./experiments/experiments.sh", destination: "/home/vagrant/gem5/experiments.sh"
+  config.vm.provision "file", source: "./experiments/spec-experiments.sh", destination: "/home/vagrant/gem5/spec-experiments.sh"
+  config.vm.provision "file", source: "./experiments/run-spec-experiments.sh", destination: "/home/vagrant/gem5/run-spec-experiments.sh"
+  config.vm.provision "file", source: "../../cpu2017-1.1.9.iso", destination: "/home/vagrant/gem5/cpu2017-1.1.9.iso"
+  config.vm.provision "shell", inline: <<-SHELL
+    cp -r /home/vagrant/gem5/* /home/gem5/
+    rm -r /home/vagrant/gem5
+    chown -R gem5:gem5 /home/gem5
+  SHELL
+
+  # install experiments
+  config.vm.provision "shell", inline: <<-SHELL
+    su -c "/bin/bash /home/gem5/base-experiments.sh" - gem5
+    su -c "/bin/bash /home/gem5/experiments.sh" - gem5
+    su -c "/bin/bash /home/gem5/spec-experiments.sh" - gem5
+    su -c "/bin/bash /home/gem5/run-spec-experiments.sh" - gem5
+  SHELL
+
+  # umount vagrant disk
+  config.vm.provision "shell", inline: <<-SHELL
+    umount /vagrant
+  SHELL
+
+end

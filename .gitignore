@@ -1,3 +1,11 @@
+venv
+.idea
+vagrant
+.vagrant
+*.asm
+*.mod
+*.so.*
+*.img
 disk-image/experiments/experiments-image
 disk-image/experiments/base-experiments-image
 disk-image/experiments/base-ubuntu-image
