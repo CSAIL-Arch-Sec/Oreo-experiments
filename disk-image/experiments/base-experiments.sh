@@ -17,6 +17,7 @@ sudo rm /home/gem5/libs.txt
 
 sudo cp /home/gem5/serial-getty@.service /lib/systemd/system/
 sudo cp /home/gem5/m5 /sbin
+sudo rm /sbin/gem5
 sudo ln -s /sbin/m5 /sbin/gem5
 # copy and run outside (host) script after booting
 cat "/home/gem5/hack_back_ckpt.rcS" | sudo tee -a /root/.bashrc
