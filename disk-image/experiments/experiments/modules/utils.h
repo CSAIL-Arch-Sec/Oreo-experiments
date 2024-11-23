@@ -1,7 +1,3 @@
-//
-// Created by shixinsong on 10/10/23.
-//
-
 #ifndef EXPERIMENTS_UTILS_H
 #define EXPERIMENTS_UTILS_H
 

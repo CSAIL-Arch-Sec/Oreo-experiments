@@ -1,3 +1,5 @@
+// Copied from https://www.willsroot.io/2022/12/entrybleed.html
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
