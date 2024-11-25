@@ -24,11 +24,12 @@ tar -cvf linux-new.tar linux-new
 ```
 
 ## Generate Disk Image
-Run the following commands to generate the disk image, which takes about 30 minutes.
+Run the following commands to generate the disk image, which takes about 1 hour on an Intel(R) Xeon(R) Gold 5220R CPU.
 ```bash
 cd experiments/disk-image
 vagrant up
-vagrant halt
+vagrant halt # To shut down the current VM
+vagrant global-status --prune # To shut down other VMs
 ```
 
 Next, we convert VirtualBox image to the raw image for gem5
