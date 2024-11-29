@@ -4,8 +4,8 @@
 ```
 artifact
     | experiments # This project
-    | gem5-new
-    | linux-new
+    | gem5
+    | linux
     | cpu2017-1.1.9.iso
     | ...
 ```
@@ -15,12 +15,12 @@ It will not be released with the final artifact since it is not open-source.
 ## Prerequisite
 Before started, ensure that
 1. `Vagrant` and `VirtualBox` are installed on the host machine (we do not use docker to build the disk image).
-2. `gem5-new/util/m5/build/x86/out/m5` is built.
-3. `linux-new/vmlinux_gem5` is built.
+2. `gem5/util/m5/build/x86/out/m5` is built.
+3. `linux/vmlinux_gem5` is built.
 
 In the artifact root directory, pack Linux source files for faster disk image build.
 ```bash
-tar -cvf linux-new.tar linux-new
+tar -cvf linux.tar linux
 ```
 
 ## Generate Disk Image

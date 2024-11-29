@@ -92,15 +92,14 @@ Vagrant.configure("2") do |config|
   SHELL
 
   # copy files
-  config.vm.provision "file", source: "../../gem5-new/util/m5/build/x86/out/m5", destination: "/home/vagrant/gem5/m5"
+  config.vm.provision "file", source: "../../gem5/util/m5/build/x86/out/m5", destination: "/home/vagrant/gem5/m5"
   config.vm.provision "file", source: "./shared/serial-getty@.service", destination: "/home/vagrant/gem5/serial-getty@.service"
   config.vm.provision "file", source: "./experiments/runscript.sh", destination: "/home/vagrant/gem5/runscript.sh"
-  config.vm.provision "file", source: "../../linux-new.tar", destination: "/home/vagrant/gem5/linux-new.tar"
+  config.vm.provision "file", source: "../../linux.tar", destination: "/home/vagrant/gem5/linux.tar"
   config.vm.provision "shell", inline: <<-SHELL
     cd /home/vagrant/gem5
-    tar -xf /home/vagrant/gem5/linux-new.tar
-    rm /home/vagrant/gem5/linux-new.tar
-    mv /home/vagrant/gem5/linux-new /home/vagrant/gem5/linux
+    tar -xf /home/vagrant/gem5/linux.tar
+    rm /home/vagrant/gem5/linux.tar
     mv /home/vagrant/gem5/linux/vmlinux_gem5 /home/vagrant/gem5/vmlinux_gem5
   SHELL
   config.vm.provision "file", source: "./experiments/hack_back_ckpt.rcS", destination: "/home/vagrant/gem5/hack_back_ckpt.rcS"
